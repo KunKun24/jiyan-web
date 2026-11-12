@@ -1,0 +1,24 @@
+JiYan Cloud · User-facing Web
+Copyright (C) 2026 JiYan Cloud
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+Third-party components
+----------------------
+- Vue 3, Vue Router, Vite, TypeScript and Vitest are used under their
+  respective MIT licenses.
+- The product name "JiYan Cloud / 极验云" and the bundled logo are trademarks
+  of the project owner. They are not covered by the AGPL license.
+- This project is not affiliated with GEETEST (极验) or any other vendor with a
+  similar name.
+
+The repository intentionally contains no server code, admin console, database
+credentials, signing keys, or deployment secrets. API endpoints referenced in
+the code are public, user-facing endpoints only.
