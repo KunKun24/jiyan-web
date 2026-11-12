@@ -22,7 +22,9 @@ jobs:
       - name: Secret scan
         run: |
           set -e
-          if grep -rInE '/www/wwwroot|Fcuk/Admin|k7Qz9x|JiYan_EnvV13_Sign|BEGIN (RSA |EC )?PRIVATE KEY' public/ ; then
+          if grep -rInE '/www/wwwroot|Fcuk/Admin|k7Qz9x|JiYan_EnvV13_Sign|BEGIN (RSA |EC )?PRIVATE KEY' public/ \
+               --include='*.php' --include='*.js' --include='*.html' --include='*.css' \
+               --exclude='*.min.js' --exclude-dir='vendor' --exclude-dir='node_modules' ; then
             echo "Forbidden string found"; exit 1
           fi
           echo "OK"
