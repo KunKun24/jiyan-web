@@ -1,50 +1,38 @@
-# JiYan Cloud · User-facing Web
+# JiYan Cloud · User-facing Frontend
 
-[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-0a84ff.svg)](LICENSE)
-[![CI](https://github.com/KunKun24/jiyan-web/actions/workflows/ci.yml/badge.svg)](https://github.com/KunKun24/jiyan-web/actions/workflows/ci.yml)
-[![Vue 3](https://img.shields.io/badge/Vue-3-42b883.svg)](https://vuejs.org/)
+<p>
+  <img alt="License" src="https://img.shields.io/badge/license-AGPL--3.0-blue">
+  <img alt="PHP" src="https://img.shields.io/badge/PHP-8.1%2B-777bb4">
+  <a href="README.md">中文</a>
+</p>
 
-The **user-facing frontend** of JiYan Cloud: landing page, card key query/unbind tool, cloud control panel and developer sign-in.
+Frontend source of the JiYan Cloud verification service: landing page, API docs, card-key lookup/unbind, user console and cloud-control panel.
 
-> This repository contains user-facing pages only. It does **not** include the admin console, server code, database schema, signing keys or deployment credentials. Every request goes to the public user-facing API.
+> This repository contains **no admin panel** and **no backend**. Database, billing, card records and cloud-control delivery live in a separate private backend loaded through `public/_backend.php`.
 
-[中文](README.md) · [Deployment](docs/en/deploy.md) · [Protocol](docs/en/protocol.md) · [FAQ](docs/en/faq.md)
+## Layout
 
-## Features
-
-- Landing page with product overview and entry points.
-- Card tool: look up card state, expiry, bound device and unbind quota; unbind within an app scope.
-- Cloud control panel: per-app feature switches, values and select options with publish/reset, plus one-shot commands.
-- Sign-in and session handling (the panel requires a developer session).
-- Dark mode and responsive layout.
-
-## Stack
-
-Vue 3 · TypeScript · Vite · Vue Router · plain CSS · Vitest.
-
-## Development
-
-```bash
-npm install
-npm run dev      # proxies /api to the official site
-npm run build    # type-check + production build
-npm run test
+```
+public/                # web root
+  home.html  接口文档.html  卡密工具.html  docs.html
+  公共资源/  en/  前台/  cloud-control.php  tool.php  _backend.php
+config.example.php     # placeholders only
+docs/                  # deployment / structure / security
 ```
 
-Override the development proxy with `JIYAN_DEV_TARGET`.
+## Deploy
 
-## Deployment
+- PHP 8.1+ with `pdo_mysql`, `openssl`, `curl`, `mbstring`; nginx.
+- Point the site root at `public/`.
+- Place the private backend at `../backend` or set `JIYAN_BACKEND_ROOT` (e.g. via `fastcgi_param`).
+- Static pages work without the backend; the console and cloud panel require a backend session.
 
-Cookies are same-origin, so the frontend must be served from the same site as the API. Build with `npm run build` and serve `dist/` as the site root, proxying `/api` to the backend. See [docs/en/deploy.md](docs/en/deploy.md).
+## Sanitization
 
-## Security
+The public copy differs from production: the inline SQL in the console was removed, backend paths go through `_backend.php`, the admin API path is replaced with the `/api/console/api.php` placeholder, and all credentials/IPs are placeholders.
 
-No credentials or secrets are stored in the frontend. The ENV transport is an encoding layer, not encryption — always use HTTPS. Report vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
+See [docs/en/security.md](docs/en/security.md).
 
 ## License
 
-[AGPL-3.0-only](LICENSE). Self-hosting and modification are allowed; if you offer a modified version as a network service, you must publish the corresponding source under the AGPL.
-
-## Notice
-
-This project is not affiliated with GEETEST. "JiYan Cloud" is an independent product name. Provided as-is, without warranty.
+[AGPL-3.0](LICENSE). Not affiliated with Geetest.

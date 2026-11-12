@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Security report
-    url: https://github.com/KunKun24/jiyan-web/security/advisories/new
-    about: Report vulnerabilities privately; do not open a public issue.
-  - name: Documentation
-    url: https://jiyan.xn--0try77c6um82w.cn/docs.html
-    about: Official API documentation.

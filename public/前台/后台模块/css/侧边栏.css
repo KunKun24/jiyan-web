@@ -1,0 +1,420 @@
+.sidebar-header {
+    padding: 20px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 0 0 auto;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.sidebar-logo:hover {
+    transform: translateY(-1px);
+    opacity: .86;
+}
+
+.sidebar-logo-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease;
+}
+
+.sidebar-logo-img:hover {
+    transform: scale(1.02);
+}
+
+.sidebar-logo-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.sidebar-logo-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a2e;
+    letter-spacing: -0.2px;
+}
+
+
+.sidebar-logo-subtitle {
+    font-size: 11px;
+    color: #888;
+    margin: 3px 0 0 0;
+}
+
+/* 侧边栏 - PC端始终显示 */
+.sidebar {
+    width: 230px;
+    background: #ffffff8c;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    position: fixed;
+    height: 100vh;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    /* 关键：侧栏自身不滚动，滚动交给 .sidebar-nav；
+       不加 overflow:hidden 时，内容总高超过 100vh 会把 footer 顶出视口 */
+    overflow: hidden;
+}
+
+/* 侧边栏按钮 */
+.sidebar-nav {
+    /* flex: 1 1 0 + min-height: 0 是滚动生效的必要条件。
+       flex 子项默认 min-height: auto（即内容高度），
+       不写 min-height: 0 时 auto 会撑开父级，overflow-y: auto 形同虚设，
+       表现就是「滑不动 / 最后几个按钮点不到」。 */
+    flex: 1 1 0;
+    min-height: 0;
+    padding: 10px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+.nav-section {
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #86868b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 15px 10px;
+    margin-top:5px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    margin: 2px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-item.active {
+    background: #000;
+    color: #fff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-item i {
+    width: 24px;
+    margin-right: 12px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.nav-item span {
+    font-size: 15px;
+}
+
+/* 侧边栏底部信息显示 */
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #f8f9fa;
+    /* 底部固定，不参与 flex 收缩，否则 nav 撑开时会被压成 0 高 */
+    flex: 0 0 auto;
+}
+
+.sidebar-footer-expanded {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.sidebar-footer-avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+}
+
+.sidebar-footer-status {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #4cd964;
+    border: 2px solid white;
+    border-radius: 50%;
+    bottom: -2px;
+    right: -2px;
+}
+
+.sidebar-footer-details {
+    flex: 1;
+    padding: 0;
+}
+
+.sidebar-footer-details h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.sidebar-footer-details p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.sidebar-footer-details .sidebar-footer-uid {
+    font-size: 12px;
+    color: #86868b;
+}
+
+.sidebar-footer-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: none;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 230px;
+    padding-bottom: 0px;
+    transition: filter var(--transition-speed) ease;
+    width: calc(100% - 230px);
+    min-width: 330px;
+}
+
+
+
+
+
+@media (min-width: 845px) {
+    .sidebar {
+        display: flex !important;
+        transform: translateX(0) !important;
+    }
+    
+    .menu-toggle {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 230px;
+        width: calc(100% - 230px);
+    }
+}
+
+
+
+@media (max-width: 844px) {
+    .sidebar {
+        display: flex !important;
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .menu-toggle {
+        display: block;
+        z-index: 1001;
+        background: #fffcfc4f;
+  box-shadow: var(--shadow);
+        margin-right: 8px;
+        border: none;
+        font-size: 14px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        display: none;
+    }
+    
+    .sidebar-overlay.open {
+        display: block;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+        /* 关键：基础样式里 .main-content 有 min-width:330px，
+           320/360 宽的机型上会顶出 10px 横向滚动条，必须在此重置 */
+        min-width: 0 !important;
+    }
+}
+
+
+/* ============================================================
+   移动端补丁（2026-10-23 实测 Chromium 320/390/768 后补齐）
+   ------------------------------------------------------------
+   1. 侧栏用 100dvh：地址栏收缩时 100vh 不重算，底部菜单会被截断
+   2. 安全区：iPhone 刘海/灵动岛机型，顶部内容会压在状态栏下
+   3. 触摸区：pointer:coarse 下按钮统一 44px，避免误触
+   4. 滚动惯性：侧栏导航与表格在 iOS 上需要 -webkit-overflow-scrolling
+   ============================================================ */
+@media (max-width: 844px) {
+    .sidebar {
+        height: 100vh;
+        height: 100dvh;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .sidebar-nav {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    /* 顶部栏/页面头给状态栏让位（仅在支持 env() 的环境生效） */
+    .main-content > .topbar,
+    .main-content > .头部栏,
+    .main-content > .page-head {
+        padding-top: calc(8px + env(safe-area-inset-top, 0px));
+    }
+
+    /* 底部给 Home 指示条让位 */
+    body {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+}
+
+@media (pointer: coarse) {
+    /* 触控设备：只给小到难点的小控件补 44px
+       注意：绝对不要给 .nav-item 的子元素（i / span）设 min-height，
+       否则图标行 + 文字行会各自撑到 44px，整行被顶成 ~100px。 */
+    .menu-toggle,
+    .rowbtn,
+    .btn-sm,
+    .jy-btn {
+        min-height: 44px;
+    }
+}
+
+
+@media (min-width: 845px) {
+    .sidebar-nav {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.16) transparent;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 6px; }
+    .sidebar-nav::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.16);
+        border-radius: 999px;
+    }
+    .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+}
+
+
+/* ============================================================
+   2026-11-05 滚动方案终极版（全局，不限屏幕宽度）
+   ------------------------------------------------------------
+   前两版的问题：
+     · 第 1 版：只给 .sidebar-nav 加 overflow-y:auto
+       桌面能滚，但手指按在 header / footer / 分组标题上时不响应，
+       用户直观感受就是「划不动」。
+     · 第 2 版：只在 max-width:844px 时改成整栏滚
+       用户的手机/平板横屏宽度 > 844px，走的还是第 1 版的规则，
+       依旧划不动 —— 这就是「只能划到对接文档就停住」的原因。
+
+   本版：不再按屏幕宽度分流。任何尺寸下都让 .sidebar 自己成为
+   唯一滚动容器，.sidebar-nav 退化为普通 flex 项。
+   好处：
+     1. 手指/滚轮落在侧边栏任何位置都能滚（logo、按钮、空白处）
+     2. 只有一层滚动，不会出现「哪个元素能滚」的判断歧义
+     3. touch-action:pan-y 明确把纵向手势交给浏览器原生滚动，
+        避免被页面级的 preventDefault 吞掉
+   ============================================================ */
+
+/* 桌面端与移动端统一：侧栏自身是滚动容器 */
+.sidebar,
+#adminApp .sidebar {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.16) transparent;
+}
+
+/* nav 不再自己滚，交给外层 */
+.sidebar-nav,
+#adminApp .sidebar-nav {
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+}
+
+/* header / footer 一起随整栏滚动，不吸顶不固定 */
+.sidebar-header,
+.sidebar-footer,
+#adminApp .sidebar-header,
+#adminApp .sidebar-footer {
+    flex: 0 0 auto;
+    position: static;
+}
+
+/* 底部留出安全区：
+   左下有固定的音乐播放器（约 84px 高），底部还有 iOS Home 条，
+   不留够空间时最后几项会被永久遮住、滚到底也看不见 */
+@media (max-width: 844px) {
+    /* 小屏播放器更矮，但依然要留出安全距离 */
+}
+
+/* 细滚动条（桌面可见，移动端自动隐藏） */
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.16);
+    border-radius: 999px;
+}
+.sidebar::-webkit-scrollbar-track { background: transparent; }

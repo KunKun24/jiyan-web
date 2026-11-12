@@ -1,122 +1,100 @@
-# 极验云 · 用户端前端
+# 极验云验证 · 用户端前端
 
-[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-0a84ff.svg)](LICENSE)
-[![CI](https://github.com/KunKun24/jiyan-web/actions/workflows/ci.yml/badge.svg)](https://github.com/KunKun24/jiyan-web/actions/workflows/ci.yml)
-[![Vue 3](https://img.shields.io/badge/Vue-3-42b883.svg)](https://vuejs.org/)
-[![Node](https://img.shields.io/badge/node-%3E%3D20-339933.svg)](https://nodejs.org/)
+<p>
+  <img alt="License" src="https://img.shields.io/badge/license-AGPL--3.0-blue">
+  <img alt="PHP" src="https://img.shields.io/badge/PHP-8.1%2B-777bb4">
+  <img alt="nginx" src="https://img.shields.io/badge/nginx-ready-009639">
+  <a href="README.en.md">English</a>
+</p>
 
-极验云（JiYan Cloud）的**用户端前端**：官网首页、卡密查询与解绑工具、云控面板、开发者登录。
+极验云验证（JiYan Cloud）的**用户端前端**源码：官网、接口文档、卡密查询与解绑、用户后台、云控面板。
 
-> 本仓库只包含用户端页面。**不包含管理后台**，也不包含服务端代码、数据库结构、签名密钥或任何部署凭据。所有请求都走官方公开接口。
+> 本仓库**不包含**管理后台，也**不包含**后端服务。数据库、支付、卡密记录、云控下发等逻辑在独立的私有后端中，通过 `public/_backend.php` 加载。
 
-![首页](docs/screenshot-home.png)
+## 包含什么
 
-![卡密工具](docs/screenshot-card.png)
+| 模块 | 入口 |
+| --- | --- |
+| 官网 | `public/home.html` |
+| 接口文档（中/英） | `public/接口文档.html`、`public/en/api-docs.html` |
+| 错误码 / 更新日志 | `public/错误码.html`、`public/更新日志.html` |
+| 卡密查询 / 解绑（用户工具） | `public/卡密工具.html`、`public/tool.php` |
+| 开发者登录 | `public/前台/开发者登录.php` |
+| 用户后台 | `public/前台/用户后台.php` → `public/前台/后台页面/index.php` |
+| 云控面板 | `public/cloud-control.php` → `public/前台/静态资源/cloud-control.js` |
+| 通用资源 | `public/公共资源/`、`public/前台/静态资源/` |
 
-[English](README.en.md) · [部署说明](docs/zh/deploy.md) · [接口协议](docs/zh/protocol.md) · [常见问题](docs/zh/faq.md)
+## 不包含什么
 
-## 功能
-
-- **官网首页**：产品介绍、能力概览、接入流程与入口聚合。
-- **卡密工具**：输入卡密查询状态、到期时间、绑定设备与解绑额度；支持应用范围内解绑。
-- **云控面板**：选择应用后打开用户端云控，编辑功能开关/数值/下拉项并下发，支持恢复默认与一次性指令。
-- **登录与会话**：使用平台账号登录，云控面板依赖登录态。
-- **深色模式与响应式布局**：桌面与移动端均可使用。
-
-## 技术栈
-
-- Vue 3 + TypeScript + Vite
-- Vue Router（history 模式）
-- 原生 CSS（设计 token、玻璃拟态、深浅色）
-- Vitest（协议层单元测试）
-
-## 快速开始
-
-```bash
-npm install
-npm run dev      # 本地开发，默认代理到官网
-npm run build    # 类型检查 + 生产构建
-npm run test     # 协议层测试
-```
-
-本地开发时，Vite 会把 `/api` 与 `/cloud-control.php` 代理到 `JIYAN_DEV_TARGET`（默认 `https://jiyan.xn--0try77c6um82w.cn`）。也可以通过环境变量覆盖：
-
-```bash
-JIYAN_DEV_TARGET=https://your-staging.example npm run dev
-```
-
-## 部署
-
-前端请求依赖**同源 Cookie**（登录态、云控面板会话），因此必须与 API 部署在同一站点下：
-
-```bash
-npm ci
-npm run build
-# 将 dist/ 作为站点根目录发布，并让 /api 反向代理到后端
-```
-
-Nginx 参考：
-
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name your-domain.example;
-
-    root /var/www/jiyan-web/dist;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    location /api/ {
-        proxy_pass https://your-backend.example;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
-```
-
-完整说明与常见坑见 [部署说明](docs/zh/deploy.md)。
+- `Fcuk/Admin`：管理后台，源码不公开。
+- `api/`、`后端程序/`：服务端接口与业务逻辑，不公开。
+- `数据/`、`uploads/`：运行数据与用户上传，不公开。
+- 数据库账号、SMTP 凭据、签名密钥、服务器地址：仓库内全部为占位符。
 
 ## 目录结构
 
 ```
-src/
-  api/          账号、公开工具、云控接口封装
-  components/   页头、Toast 等通用组件
-  lib/          ENV 传输协议、HTTP 封装、格式化
-  stores/       登录态
-  styles/       设计 token 与全局样式
-  views/        首页 / 卡密 / 登录 / 云控 / 404
-tests/          协议层单元测试
-docs/           中英文部署与协议说明
+public/                 # 站点根目录（nginx root 指向这里）
+  home.html  接口文档.html  卡密工具.html  docs.html  错误码.html
+  公共资源/             # 图标、字体、通用 JS/CSS、第三方库
+  en/                   # 英文文档
+  前台/
+    开发者登录.php  用户后台.php  后台入口校验.php
+    后台页面/index.php   # 用户后台页面
+    后台模块/            # 用户后台各功能模块（JS）
+    静态资源/            # 云控面板、趋势图、主题等
+    平台*.html  用户协议.html
+  cloud-control.php     # 云控面板渲染入口
+  tool.php              # 每应用独立的卡密工具短链入口
+  _backend.php          # 私有后端加载器（见下）
+config.example.php      # 配置占位符（不含真实凭据）
+docs/                   # 部署、结构与安全说明
 ```
 
-## 接口边界
+## 部署
 
-- 公开工具：`web_card_query`、`web_unbind`（无需登录，服务端按 IP 限流）。
-- 账号接口：`/api/账号接口入口.php` 的 `login`、`me`、`logout`。
-- 云控接口：`open_cloud_control` 获取面板链接，面板会话建立后调用 `/api/env/cloud-control.php`。
+要求：PHP 8.1+（含 `pdo_mysql`、`openssl`、`curl`、`mbstring`）、nginx。
 
-详细字段与示例见 [接口协议](docs/zh/protocol.md)。
+1. 将 `public/` 设为站点根目录。
+2. 把私有后端放到 `../backend`，或设置环境变量：
 
-## 安全
+   ```nginx
+   fastcgi_param JIYAN_BACKEND_ROOT /path/to/private-backend;
+   ```
 
-- 前端不保存密码，不内置任何密钥；会话由服务端 HttpOnly Cookie 管理。
-- ENV 传输是编码层，不是加密层，必须配合 HTTPS。
-- 发现安全问题请按 [SECURITY.md](SECURITY.md) 私下报告，不要提交公开 Issue。
+3. 确认 `public/_backend.php` 能读到 `JIYAN_BACKEND_ROOT/src/bootstrap.php`。
+4. 站点根路径不要暴露 `config.example.php` 与 `docs/`（它们本来就在 `public/` 之外）。
 
-## 相关仓库
+纯静态页面（官网、接口文档、卡密工具）不依赖后端即可打开；用户后台与云控面板需要后端会话。
 
-- [jiyan-sdk-cpp](https://github.com/KunKun24/jiyan-sdk-cpp)：C++ 客户端 SDK
-- [jiyan-sdk-android](https://github.com/KunKun24/jiyan-sdk-android)：Android DEX 壳与组件 SDK
-- 官方文档：<https://jiyan.xn--0try77c6um82w.cn/docs.html>
+## 与后端对接
+
+- 卡密工具通过 `POST /api/env/api.php` 调用公开的查询/解绑动作。
+- 用户后台通过私有的管理接口读取数据；本仓库把管理接口地址统一写成占位路径 `/api/console/api.php`，部署时由后端映射到实际地址。
+- 云控面板的入口链接由后端生成，前端只负责渲染与调用。
+
+## 脱敏说明
+
+公开版本与生产版本相比，做了这些处理：
+
+- 移除了用户后台中直接读取数据库的 SQL 片段，改为静态默认值。
+- 所有后端绝对路径改为 `_backend.php` + `JIYAN_BACKEND_ROOT`。
+- 管理接口路径改为 `/api/console/api.php` 占位。
+- 签名占位串、下载地址均为示例值。
+- 不含任何服务器 IP、数据库账号密码、SMTP 凭据。
+
+详见 [docs/zh/security.md](docs/zh/security.md)。
+
+## 协议与安全
+
+- 加密与签名协议见 [接口文档](public/接口文档.html)。
+- 安全问题请走 [SECURITY.md](SECURITY.md)，不要开公开 Issue。
 
 ## 许可证
 
-[AGPL-3.0-only](LICENSE)。你可以自部署与修改，但向公众提供修改后的服务时需按 AGPL 公开对应源码。
+[AGPL-3.0](LICENSE)。你可以自建、修改并对外提供服务，但修改后的版本必须同样以 AGPL-3.0 开源。
 
 ## 声明
 
-本项目与 GEETEST（极验）无关，「极验云 / JiYan Cloud」为独立产品名称。仓库内容按现状提供，不附带任何明示或暗示担保。
+- 本项目与 Geetest（极验）无关，「极验云验证」为其作者独立产品名称。
+- 部分代码与文档在 AI 辅助下完成，已人工复核。

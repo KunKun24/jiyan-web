@@ -1,0 +1,22 @@
+
+
+@media (max-width: 844px) {
+
+    
+    body {
+        background-image: url('https://api.yppp.net/pe.php');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+}
+
+@media (min-width: 845px) {
+    body {
+        
+        background-image: url('https://api.yppp.net/pc.php');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+}
+
+

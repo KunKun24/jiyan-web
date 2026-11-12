@@ -1,0 +1,84 @@
+/* ===== 第三方扫码登录（QQ / 微信）覆盖层 =====
+   独立文件，不改动 Main.css 与任何原始业务样式 */
+
+.三方登录分隔线 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 14px;
+  color: #94a3b8;
+  font-size: 12px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.三方登录分隔线::before,
+.三方登录分隔线::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(148, 163, 184, .35);
+}
+
+.三方登录按钮组 {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.三方登录按钮 {
+  flex: 1;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(148, 163, 184, .35);
+  border-radius: 12px;
+  background: #ffffffcc;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .1s, box-shadow .2s, border-color .2s, background .2s;
+}
+.三方登录按钮:hover {
+  border-color: #1e90ff;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(30, 144, 255, .18);
+}
+.三方登录按钮:active { transform: translateY(1px); }
+.三方登录按钮:disabled { opacity: .5; cursor: not-allowed; }
+
+.三方登录按钮 svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+.三方登录按钮.qq svg { fill: #12b7f5; }
+.三方登录按钮.wx svg { fill: #07c160; }
+.三方登录按钮.qq:hover { border-color: #12b7f5; box-shadow: 0 6px 16px rgba(18, 183, 245, .20); }
+.三方登录按钮.wx:hover { border-color: #07c160; box-shadow: 0 6px 16px rgba(7, 193, 96, .20); }
+
+/* 手机端：按钮保持一行，图标字号略微收小 */
+@media (max-width: 480px) {
+  .三方登录按钮 { height: 44px; font-size: 13px; }
+  .三方登录按钮 svg { width: 18px; height: 18px; flex: 0 0 18px; }
+}
+
+/* ===== 扫码兜底区 ===== */
+.扫码兜底 { margin-top: 14px; }
+.扫码兜底_标题 {
+  font-size: 12px;
+  color: #1e90ff;
+  cursor: pointer;
+  text-align: center;
+  padding: 6px 0;
+  user-select: none;
+}
+.扫码兜底_标题:hover { text-decoration: underline; }
+.扫码兜底_面板 {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(148, 163, 184, .35);
+}

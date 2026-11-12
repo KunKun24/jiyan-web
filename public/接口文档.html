@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>API 接口文档 · 极验云</title>
+<meta name="description" content="极验云卡密验证、同行识别、云更新、云控接口文档：请求格式、加密与签名、接口参考、错误码。">
+<link rel="icon" href="/favicon.ico">
+<style>
+:root{
+  --bg:#ffffff;--bg-soft:#f7f8fa;--bg-code:#f6f7f9;--fg:#1d1d1f;--fg-2:#4b5563;--fg-3:#8a8f98;
+  --line:#e6e8eb;--line-soft:#eef0f3;--accent:#2563eb;--accent-soft:#eff4ff;--ok:#0f9d58;--warn:#b45309;--bad:#c0392b;
+  --side:260px;--radius:10px;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+html[data-theme="dark"]{
+  --bg:#0f1115;--bg-soft:#15181d;--bg-code:#15181d;--fg:#e8eaed;--fg-2:#a9b0ba;--fg-3:#7b828c;
+  --line:#242a33;--line-soft:#1c222a;--accent:#6ea8fe;--accent-soft:#16203a;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#0f1115;--bg-soft:#15181d;--bg-code:#15181d;--fg:#e8eaed;--fg-2:#a9b0ba;--fg-3:#7b828c;
+    --line:#242a33;--line-soft:#1c222a;--accent:#6ea8fe;--accent-soft:#16203a;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.88em;background:var(--bg-code);border:1px solid var(--line-soft);border-radius:5px;padding:.08em .38em;word-break:break-word}
+pre{margin:14px 0;background:var(--bg-code);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.7;white-space:pre}
+.wrap{display:flex;min-height:100vh}
+
+/* 左侧栏 */
+aside{position:sticky;top:0;height:100vh;width:var(--side);flex:0 0 var(--side);border-right:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:9px;padding:20px 20px 14px}
+.brand .dot{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.brand b{font-size:15px;letter-spacing:.2px}
+.brand small{display:block;font-size:11px;color:var(--fg-3);font-weight:400;letter-spacing:.3px}
+.lang{display:flex;gap:6px;padding:0 20px 14px}
+.lang a{font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;color:var(--fg-2)}
+.lang a.on{background:var(--accent);border-color:var(--accent);color:#fff}
+nav{flex:1;overflow:auto;padding:4px 12px 20px}
+nav .grp{font-size:11px;font-weight:600;color:var(--fg-3);letter-spacing:.08em;text-transform:uppercase;padding:14px 10px 6px}
+nav a{display:block;padding:6px 10px;border-radius:7px;color:var(--fg-2);font-size:13.5px;line-height:1.5}
+nav a:hover{background:var(--bg-soft);text-decoration:none;color:var(--fg)}
+nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.side-foot{border-top:1px solid var(--line);padding:12px 20px;display:flex;gap:14px;font-size:12px;color:var(--fg-3)}
+.side-foot a{color:var(--fg-3)}
+
+/* 正文 */
+main{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 40px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px)}
+.crumb{font-size:13px;color:var(--fg-3)}
+.crumb b{color:var(--fg);font-weight:600}
+.top-actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--fg-2);border:1px solid var(--line);background:var(--bg);border-radius:7px;padding:5px 10px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--fg-3);text-decoration:none;color:var(--fg)}
+article{max-width:900px;padding:36px 40px 100px}
+h1{font-size:30px;line-height:1.3;margin:0 0 6px;letter-spacing:-.01em}
+.lead{color:var(--fg-2);margin:0 0 8px;font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 34px}
+.tag{font-size:12px;color:var(--fg-2);border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--bg-soft)}
+h2{font-size:21px;margin:52px 0 14px;padding-top:8px;border-top:1px solid var(--line-soft);letter-spacing:-.005em}
+h2:first-of-type{border-top:0;margin-top:12px}
+h2 .num{color:var(--fg-3);font-weight:500;font-size:14px;margin-right:8px;font-family:var(--mono)}
+h3{font-size:16px;margin:30px 0 10px}
+h4{font-size:14px;margin:22px 0 8px;color:var(--fg)}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:22px}
+li{margin:5px 0}
+.path{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:6px 0 12px}
+.method{font:600 11px/1 var(--mono);letter-spacing:.06em;color:#fff;background:#2563eb;border-radius:5px;padding:6px 8px}
+.path code{font-size:13px;background:var(--bg-soft)}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:11px 14px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:var(--fg-2)}
+.note b{color:var(--fg)}
+.warn{border-left-color:var(--warn);background:color-mix(in srgb,var(--warn) 9%,transparent)}
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{background:var(--bg-soft);font-weight:600;color:var(--fg-2);font-size:12.5px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--bg-soft)}
+td code{font-size:12.5px}
+.k{color:var(--accent)}
+.req{color:var(--bad);font-weight:600}
+.opt{color:var(--fg-3);font-size:12px}
+pre{position:relative}
+.copy{position:absolute;top:8px;right:8px;font-size:11.5px;color:var(--fg-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 8px;cursor:pointer;opacity:.85}
+.copy:hover{opacity:1}
+.scroll-hint{display:none;font-size:12px;color:var(--fg-3);margin:-6px 0 12px}
+.foot{border-top:1px solid var(--line);margin-top:60px;padding-top:18px;font-size:13px;color:var(--fg-3);display:flex;flex-wrap:wrap;gap:16px}
+#menuBtn{display:none}
+
+@media (max-width:1000px){
+  aside{position:fixed;left:0;top:0;z-index:60;transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 10px 40px rgba(0,0,0,.18)}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .topbar{padding:10px 14px;gap:8px}
+  .btn{padding:4px 9px;font-size:12px}
+  .crumb{display:none}
+  table{min-width:0;font-size:12.5px}
+  th,td{padding:8px 10px}
+  td code,th code{word-break:break-all}
+  h1{font-size:25px}
+  article{padding:24px 18px 80px}
+  .scroll-hint{display:block}
+  .mask{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;display:none}
+  .mask.on{display:block}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside id="side">
+    <div class="brand">
+      <span class="dot">极</span>
+      <div><b>极验云 · 开发者文档</b><small>API Reference v1.7</small></div>
+    </div>
+    <div class="lang">
+      <a href="/接口文档.html" class="on">CN</a>
+      <a href="/en/api-docs.html">EN</a>
+    </div>
+    <nav id="nav">
+      <div class="grp">开始</div>
+      <a href="#overview">概览</a>
+      <a href="#quickstart">快速开始</a>
+      <div class="grp">协议</div>
+      <a href="#endpoints">接口端点</a>
+      <a href="#request">请求格式</a>
+      <a href="#crypto">加密与签名</a>
+      <a href="#response">响应格式</a>
+      <div class="grp">接口参考</div>
+      <a href="#key">卡密接口</a>
+      <a href="#user">同行识别</a>
+      <a href="#cloud">云更新</a>
+      <a href="#cloudcontrol">云控通道</a>
+      <div class="grp">参考</div>
+      <a href="#errors">错误码</a>
+      <a href="#heartbeat">心跳与在线</a>
+      <a href="#limits">限制与建议</a>
+      <a href="#sdkerrors">SDK 本地错误</a>
+      <a href="#changelog">变更记录</a>
+    </nav>
+    <div class="side-foot">
+      <a href="/">返回首页</a>
+      <a href="javascript:void(0)" id="themeBtn2">切换主题</a>
+    </div>
+  </aside>
+  <div class="mask" id="mask"></div>
+
+  <main>
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn" id="menuBtn">☰ 目录</button>
+        <span class="crumb">文档 / <b>API 接口文档</b></span>
+      </div>
+      <div class="top-actions">
+        <a class="btn" href="/">返回首页</a>
+        <button class="btn" id="themeBtn">切换主题</button>
+      </div>
+    </div>
+
+    <article>
+      <h1>API 接口文档</h1>
+      <p class="lead">卡密验证、设备绑定、在线心跳、同行识别、云更新分发与云控配置，统一走同一套 HTTP 接口。</p>
+      <div class="meta">
+        <span class="tag">版本 1.7</span>
+        <span class="tag">UTF-8 · JSON</span>
+        <span class="tag">POST only</span>
+        <span class="tag">更新 2026-11-09</span>
+      </div>
+
+      <!-- 1 -->
+      <h2 id="overview"><span class="num">01</span>概览</h2>
+      <p>极验云服务端对外只暴露 4 个 PHP 端点，所有业务动作通过加密信封里的 <code>action</code> 区分。客户端不需要会话、Cookie 或后台登录，只需要后台创建应用时生成的配置：</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>配置项</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>app_id</code></td><td>应用编号，正整数</td></tr>
+          <tr><td><code>developer_username</code></td><td>开发者账号（应用所有者用户名）</td></tr>
+          <tr><td><code>encrypt_format</code></td><td>加密方式 <code>0–8</code>，见「加密与签名」</td></tr>
+          <tr><td><code>api_key</code></td><td>加密密钥，长度与格式随加密方式变化</td></tr>
+          <tr><td><code>sign_type</code></td><td>签名方式 <code>0–14</code></td></tr>
+          <tr><td><code>sign_key</code></td><td>签名密钥；<code>sign_type=0</code> 时可为空</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><b>协议分层：</b>HTTP 传输 → 外层 JSON 信封（四个字段）→ 内层业务参数（加密后的 query 串）→ 业务响应（加密后的 JSON）。每一层都独立校验，错误码也分层返回。</div>
+      <p><b>基础地址</b>（两个站点，按客户端类型选择）：</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>用途</th><th>基础地址</th><th>协议</th></tr></thead>
+        <tbody>
+          <tr><td>C++ / 原生客户端、卡密、云控</td><td><code>http://api.和泉纱雾.cn/api/</code></td><td>HTTP</td></tr>
+          <tr><td>Java / 桌面客户端（可选）</td><td><code>https://jiyan.和泉纱雾.cn/api/JiYan/</code></td><td>HTTPS</td></tr>
+        </tbody>
+      </table></div>
+      <p>命令行工具不支持中文域名时，用 punycode：<code>api.xn--0try77c6um82w.cn</code>、<code>jiyan.xn--0try77c6um82w.cn</code>。</p>
+
+      <!-- 2 -->
+      <h2 id="quickstart"><span class="num">02</span>快速开始</h2>
+      <ol>
+        <li>在控制台创建应用，记下 <code>app_id</code>、<code>encrypt_format</code>、<code>api_key</code>、<code>sign_type</code>、<code>sign_key</code>。</li>
+        <li>客户端初始化时保存上述配置，并生成稳定的 <code>device_id</code>（Android 建议 <code>ANDROID_ID</code>，桌面可用机器码/UUID，持久化保存）。</li>
+        <li>先调用 <code>get_crypto_options</code> 自检密钥是否匹配，再调用 <code>use_card</code> 验证卡密；成功后按返回的「心跳间隔秒」定时调用 <code>heartbeat</code>。</li>
+      </ol>
+      <p>最小的请求（加密方式 0，即明文，仅用于联调）：</p>
+<pre><code>curl -s http://api.和泉纱雾.cn/api/key.php \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "developer_username": "你的开发者账号",
+    "app_id": 12345,
+    "iv": "",
+    "data": "action=use_card&amp;rc=0123456789abcdef0123456789abcdef&amp;card_key=TEST-0001&amp;device_id=abcdef0123456789"
+  }'</code><button class="copy">复制</button></pre>
+      <p>加密方式 1 及以上时，<code>data</code> 是加密后的 Base64 串、<code>iv</code> 是 Base64 的 16 字节 IV；签名方式非 0 时还要在内层参数里加 <code>timestamp</code>、<code>nonce</code>、<code>signature_version=2</code>、<code>signature_scope</code>、<code>signature</code>。</p>
+
+      <!-- 3 -->
+      <h2 id="endpoints"><span class="num">03</span>接口端点</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>端点</th><th>用途</th><th>允许的 action</th></tr></thead>
+        <tbody>
+          <tr><td><code>/api/key.php</code></td><td>卡密验证、心跳、卡密详情、解绑、公告、加密选项、建卡</td><td><code>use_card</code> <code>heartbeat</code> <code>get_card_info</code> <code>unbind_device</code> <code>get_announcement</code> <code>get_crypto_options</code> <code>create_card_client</code></td></tr>
+          <tr><td><code>/api/user.php</code></td><td>同行识别：上报玩家身份并返回在线列表</td><td><code>update_game_info</code></td></tr>
+          <tr><td><code>/api/Cloudupdate.php</code></td><td>云更新：版本检查、清单、取下载地址、下载回执</td><td><code>check_version</code> <code>get_update_manifest</code> <code>get_download_url</code> <code>confirm_download</code></td></tr>
+          <tr><td><code>/api/cloud-client.php</code></td><td>云控：拉取/上报远程配置（会员功能）</td><td><code>sdk_sync</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>四个端点都只接受 <code>POST</code>。其它方法返回 <code>405</code>；未定义的路径返回 <code>404</code>，都不会进入业务逻辑。</p>
+
+      <!-- 4 -->
+      <h2 id="request"><span class="num">04</span>请求格式</h2>
+      <h3>请求头</h3>
+<pre><code>POST /api/key.php HTTP/1.1
+Host: api.和泉纱雾.cn
+Content-Type: application/json; charset=utf-8
+Content-Length: 512
+
+{ ... }</code><button class="copy">复制</button></pre>
+
+      <h3>外层信封</h3>
+      <p>请求体是一个 JSON 对象，固定四个字段：</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>developer_username</code></td><td>string</td><td class="req">是</td><td>开发者账号（应用所有者），≤128 字节</td></tr>
+          <tr><td><code>app_id</code></td><td>int / string</td><td class="req">是</td><td>应用编号，正整数</td></tr>
+          <tr><td><code>iv</code></td><td>string</td><td>见加密方式</td><td>AES 类加密的 Base64 IV（16 字节）；非 AES 方式传空串</td></tr>
+          <tr><td><code>data</code></td><td>string</td><td class="req">是</td><td>内层参数按加密方式处理后得到的字符串</td></tr>
+        </tbody>
+      </table></div>
+      <p>请求体上限 <b>1 MiB</b>；<code>data</code> 为空或超出上限会被直接拒绝，返回前置错误。</p>
+
+      <h3>内层参数</h3>
+      <p>内层是 <code>k=v&amp;k=v</code> 形式的 query 串（加密前），所有值都是字符串，服务端按字段名取值：</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>action</code></td><td class="req">是</td><td>业务动作，取值见各端点</td></tr>
+          <tr><td><code>rc</code></td><td>建议</td><td>请求标识，32 位随机串；响应会在 <code>data.rc</code> 原样回显，用于把响应与请求配对</td></tr>
+          <tr><td><code>card_key</code></td><td>按接口</td><td>卡密号码；别名 <code>card</code> <code>card_no</code> <code>key</code></td></tr>
+          <tr><td><code>device_id</code></td><td>按接口</td><td>设备标识；别名 <code>markcode</code> <code>user_mark</code>，≤64 字符（免绑卡可到 128）</td></tr>
+          <tr><td><code>user_name</code></td><td>按接口</td><td>玩家名；别名 <code>player_name</code></td></tr>
+          <tr><td><code>user_uid</code></td><td>按接口</td><td>玩家 UID；别名 <code>player_uid</code></td></tr>
+          <tr><td><code>password</code></td><td>按应用</td><td>安全请求密码，仅当应用开启「安全请求校验」时需要</td></tr>
+          <tr><td><code>token</code></td><td>按应用</td><td>安全请求 Token，同上</td></tr>
+          <tr><td><code>timestamp</code></td><td>v2 必填</td><td>10–16 位数字，秒或毫秒；与服务端时间偏差不得超过 <b>300 秒</b></td></tr>
+          <tr><td><code>nonce</code></td><td>v2 必填</td><td>16–64 位，字符集 <code>[A-Za-z0-9_-]</code>，一次性，重复即拒</td></tr>
+          <tr><td><code>signature_version</code></td><td>v2 必填</td><td>固定字符串 <code>2</code></td></tr>
+          <tr><td><code>signature_scope</code></td><td>v2 必填</td><td><code>key</code>（key.php）、<code>user</code>（user.php）、<code>cloud</code>（Cloudupdate.php）、<code>cloud_control</code>（云控）</td></tr>
+          <tr><td><code>signature</code></td><td>v2 必填</td><td>按下面的规范串计算出的签名</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note">同一个请求里不要重复出现同名字段；服务端按出现顺序解析，重复字段会导致取值不确定。</div>
+
+      <!-- 5 -->
+      <h2 id="crypto"><span class="num">05</span>加密与签名</h2>
+      <h3>加密方式</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>编号</th><th>名称</th><th>密钥 / IV</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>不加密（明文）</td><td>—</td></tr>
+          <tr><td>1</td><td>AES-256-CBC + PKCS#7</td><td><code>api_key</code> 为 Base64 的 32 字节；<code>iv</code> 为 Base64 的 16 字节</td></tr>
+          <tr><td>2</td><td>自定义 Base64 编码集</td><td><code>api_key</code> 为 64 字符置换表</td></tr>
+          <tr><td>3</td><td>极验 EnvProto</td><td><code>api_key</code> 十六进制</td></tr>
+          <tr><td>4</td><td>JiYan-Seal v1（HMAC 密钥流 + 完整性标签）</td><td><code>api_key</code> 64 位十六进制</td></tr>
+          <tr><td>5</td><td>AES-256-CBC + HMAC-SHA256（Encrypt-then-MAC）</td><td><code>api_key</code> Base64 32 字节；<code>iv</code> Base64 16 字节</td></tr>
+          <tr><td>6</td><td>AES-256-GCM（AEAD）</td><td><code>api_key</code> Base64 32 字节；输出 <code>base64(nonce12‖密文‖tag16)</code></td></tr>
+          <tr><td>7</td><td>ChaCha20-Poly1305（AEAD）</td><td><code>api_key</code> Base64 32 字节；输出 <code>base64(nonce12‖密文‖tag16)</code></td></tr>
+          <tr><td>8</td><td>XChaCha20-Poly1305（AEAD）</td><td><code>api_key</code> Base64 32 字节；输出 <code>base64(nonce24‖密文‖tag16)</code></td></tr>
+          <tr><td colspan="3" style="color:#8a8f98">会员专享：加密 5–8（带完整性校验的 AEAD / Encrypt-then-MAC）；其余加密方式免费。</td></tr>
+        </tbody>
+      </table></div>
+      <p>加密结果放在外层 <code>data</code>；明文模式（0）下 <code>data</code> 就是内层 query 串本身。</p>
+
+      <h3>签名方式</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>编号</th><th>算法</th><th>计算方式</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>不签名</td><td>—</td></tr>
+          <tr><td>1–11</td><td>MD5 / SHA512 / CRC32 / SHA256 / RIPEMD160 / SHA1 / SHA224 / SHA384 / SHA3-512 / SHA3-256 / SHA3-224</td><td><code>hash(content + sign_key)</code></td></tr>
+          <tr><td>12</td><td>JiYan-Sign（HMAC-SHA256）</td><td><code>HMAC-SHA256(key=sign_key, msg=content)</code></td></tr>
+          <tr><td>13</td><td>JiYan-Sign+（双段 HMAC）</td><td><code>HMAC(content) + "." + substr(HMAC("jy1"+content+sign_key), 0, 16)</code></td></tr>
+          <tr><td>14</td><td>BLAKE2b-256（带密钥）</td><td><code>BLAKE2b-256(content, key=SHA256(sign_key))</code>，输出 64 位小写十六进制</td></tr>
+          <tr><td colspan="3" style="color:#8a8f98">会员专享：签名 13–14（双段 HMAC / 带密钥 BLAKE2b）；其余签名方式免费。</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>v2 规范串</h3>
+      <p>当 <code>signature_version=2</code> 时，<code>content</code> 按下面的规则拼出（UTF-8 字节）：</p>
+<pre><code>jy-req-v2\n
+{signature_scope}\n
+{app_id}\n
+2\n
+{len(name)}:{name}={len(value)}:{value}\n   ← 每个参数一行，按 name 字节序升序，排除 signature 本身</code><button class="copy">复制</button></pre>
+      <ul>
+        <li><code>len()</code> 是 <b>字节长度</b>，不是字符数；中文按 UTF-8 计 3 字节。</li>
+        <li>参与签名的参数包含 <code>action</code>、<code>rc</code>、<code>timestamp</code>、<code>nonce</code>、<code>signature_version</code>、<code>signature_scope</code> 以及该接口的业务参数；数组/对象类型的值不参与。</li>
+        <li>先验签、后消费 nonce：验签失败不会占用 nonce。</li>
+        <li>显式 <code>signature_version=2</code> 才走本规则；不带该字段按历史 v1（按参数出现顺序拼接 value）处理。</li>
+      </ul>
+
+      <h3>响应签名</h3>
+      <p>服务端对响应同样签名，参与内容为：</p>
+<pre><code>sign(
+  (success ? "true" : "false") + message + json_encode(data),
+  sign_type, sign_key
+)</code><button class="copy">复制</button></pre>
+      <p>比对时必须使用「收到的原始 data 文本」，不能重新序列化后再算（键顺序与转义会变化）。SDK 已内置该逻辑。</p>
+
+      <!-- 6 -->
+      <h2 id="response"><span class="num">06</span>响应格式</h2>
+      <p>业务响应体是<b>加密后的字符串</b>，<code>Content-Type: text/plain; charset=utf-8</code>，需按应用的 <code>encrypt_format</code> 解密后才是 JSON（加密方式 0 时直接就是 JSON）。</p>
+<pre><code>{
+  "success": true,
+  "code": 0,
+  "message": "卡密验证成功",
+  "data": { "rc": "0123...cdef", "到期时间": "2026-12-31 23:59:59" },
+  "signature": "响应签名"
+}</code><button class="copy">复制</button></pre>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>字段</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>success</code></td><td>业务是否成功。失败时看 <code>code</code> 与 <code>message</code></td></tr>
+          <tr><td><code>code</code></td><td>业务码，成功为 0，失败见错误码表</td></tr>
+          <tr><td><code>message</code></td><td>可直接展示的中文说明</td></tr>
+          <tr><td><code>data</code></td><td>业务数据；请求带 <code>rc</code> 时一定回显 <code>data.rc</code></td></tr>
+          <tr><td><code>signature</code></td><td>响应签名，校验规则见上一节</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note warn"><b>前置错误：</b>如果请求在解密、查应用、验签之前就失败（例如应用不存在、请求体格式错），响应不是 JSON 而是纯文本，以 <code>JiYan_Error</code> 开头，例如 <code>JiYan_Error应用不存在</code>（历史前缀 <code>(Env-Error)</code> 已废弃，1.7 SDK 不再识别）。客户端应按「前缀 + 文本」兼容，而不是直接 JSON 解析。</div>
+
+      <!-- 7 -->
+      <h2 id="key"><span class="num">07</span>卡密接口 <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/key.php</span></h2>
+
+      <h3 id="use_card">7.1 验证卡密 <span class="tag" style="font-size:11px">action=use_card</span></h3>
+      <p class="lead">校验卡密是否有效、绑定设备、登记在线会话；返回到期时间与在线人数。这是登录流程的入口。</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_key</code></td><td class="req">是</td><td>卡密号码</td></tr>
+          <tr><td><code>device_id</code></td><td class="req">是</td><td>设备唯一标识，绑定后不可跨设备使用</td></tr>
+          <tr><td><code>user_name</code></td><td>否</td><td>玩家名，用于后台在线列表展示</td></tr>
+          <tr><td><code>user_uid</code></td><td>否</td><td>玩家 UID，用于同行识别与封禁</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>成功 data</b></p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>字段</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>到期时间</code></td><td><code>YYYY-MM-DD HH:mm:ss</code> 或字符串 <code>永久</code></td></tr>
+          <tr><td><code>剩余秒</code></td><td>剩余可用秒数；永久卡为 <code>-1</code></td></tr>
+          <tr><td><code>在线人数</code></td><td>当前窗口内在线设备数</td></tr>
+          <tr><td><code>game_uids</code></td><td>在线玩家 UID 数组（同游戏）</td></tr>
+          <tr><td><code>心跳间隔</code></td><td>心跳间隔秒数（客户端按此定时心跳）</td></tr>
+          <tr><td><code>心跳间隔秒</code></td><td>同上，显式秒字段（推荐使用）</td></tr>
+          <tr><td><code>在线判定窗口秒</code></td><td>超过该秒数未心跳即视为离线</td></tr>
+          <tr><td><code>server_time</code></td><td>服务器时间戳（秒）</td></tr>
+          <tr><td><code>need_reverify</code></td><td><code>1</code> 表示必须重新验证卡密，不能重试原请求</td></tr>
+          <tr><td><code>type</code></td><td>卡密类型：<code>1</code> 普通 / <code>2</code> 多设备</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>常见失败</b>：<code>2001</code> 卡密不存在 / <code>2002</code> 卡密已到期 / <code>2005</code> 卡密已被禁用 / <code>2006</code> 用户已被封禁 / <code>1001</code> 机器码为空 / <code>1005</code> 安全请求密码或 Token 错误。</p>
+
+      <h3 id="heartbeat-api">7.2 心跳 <span class="tag" style="font-size:11px">action=heartbeat</span></h3>
+      <p class="lead">定时续期在线状态。间隔按 <code>use_card</code> 返回的「心跳间隔秒」执行，默认 10 秒。</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_key</code></td><td class="req">是</td><td>卡密号码</td></tr>
+          <tr><td><code>device_id</code></td><td class="req">是</td><td>与验证时一致</td></tr>
+          <tr><td><code>user_name</code></td><td>否</td><td>玩家名</td></tr>
+          <tr><td><code>user_uid</code></td><td>否</td><td>玩家 UID</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>成功 data</b>：<code>到期时间</code>、<code>剩余秒</code>、<code>在线人数</code>、<code>心跳间隔</code>、<code>心跳间隔秒</code>、<code>在线判定窗口秒</code>、<code>server_time</code>、<code>need_reverify</code>、<code>type</code>。</p>
+      <div class="note warn">心跳返回失败（例如 <code>2006</code> 封禁、<code>2002</code> 到期）时，必须停止游戏功能并提示用户，<b>不要</b>继续重试；<code>need_reverify=1</code> 时必须重新走 <code>use_card</code>。</div>
+
+      <h3 id="card_info">7.3 卡密详情 <span class="tag" style="font-size:11px">action=get_card_info</span></h3>
+      <p>参数：<code>card_key</code>（必填）。返回卡密号码、类型、有效天数/小时/分钟、最大设备数、绑定设备、卡密状态（<code>0</code> 未使用 / <code>1</code> 使用中 / <code>2</code> 已到期）、创建时间、到期时间、最后使用时间、禁用状态、是否不检查设备、备注。</p>
+
+      <h3 id="unbind">7.4 解绑设备 <span class="tag" style="font-size:11px">action=unbind_device</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_key</code></td><td class="req">是</td><td>卡密号码</td></tr>
+          <tr><td><code>device_id</code></td><td class="req">是</td><td>当前绑定的设备</td></tr>
+        </tbody>
+      </table></div>
+      <p>成功返回 <code>卡密号码</code> 与 <code>到期时间</code>。会受应用的「解绑冷却时间」「解绑次数上限」「解绑扣时」配置影响：<code>2003</code> 表示冷却未到或次数不足。</p>
+
+      <h3 id="announcement">7.5 公告 <span class="tag" style="font-size:11px">action=get_announcement</span></h3>
+      <p>无参数。成功返回 <code>announcement</code> 文本；应用关闭公告功能时返回 <code>3003</code>「程序公告功能已关闭」。</p>
+
+      <h3 id="crypto_options">7.6 加密选项自检 <span class="tag" style="font-size:11px">action=get_crypto_options</span></h3>
+      <p>无参数。返回该应用当前可用的加密/签名编号、是否会员、会员要求，以及当前配置：</p>
+<pre><code>{ "encrypt": [...], "sign": [...], "is_vip": true, "vip_required": true,
+  "current": { "encrypt_format": "1", "sign_type": "12" } }</code><button class="copy">复制</button></pre>
+
+      <h3 id="create_card">7.7 客户端建卡 <span class="tag" style="font-size:11px">action=create_card_client</span></h3>
+      <p class="lead">在客户端直接创建卡密（从开发者的卡密余额扣减）。无需后台登录，但需要应用可用且验签通过。</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_keys</code></td><td>否</td><td>自定义卡号，多个用空白/逗号分隔（最多 500 个）；不传则随机生成</td></tr>
+          <tr><td><code>card_type</code></td><td>否</td><td><code>1</code> 普通 / <code>2</code> 多设备（默认 <code>1</code>）</td></tr>
+          <tr><td><code>duration_days</code></td><td>否</td><td>有效天数（<code>36500</code> 表示永久）</td></tr>
+          <tr><td><code>duration_hours</code></td><td>否</td><td>有效小时</td></tr>
+          <tr><td><code>duration_minutes</code></td><td>否</td><td>有效分钟</td></tr>
+          <tr><td><code>max_devices</code></td><td>否</td><td>最大设备数，<code>1–10000</code></td></tr>
+          <tr><td><code>notes</code></td><td>否</td><td>备注，≤255 字符</td></tr>
+        </tbody>
+      </table></div>
+      <p>返回：数字下标的卡密数组 + <code>card_balance</code>（扣减后的卡密余额）。单次卡（单次使用类型）暂未开放。</p>
+
+      <!-- 8 -->
+      <h2 id="user"><span class="num">08</span>同行识别 <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/user.php</span></h2>
+      <h3 id="update_game_info">8.1 上报玩家身份 <span class="tag" style="font-size:11px">action=update_game_info</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_key</code></td><td class="req">是</td><td>卡密号码</td></tr>
+          <tr><td><code>device_id</code></td><td class="req">是</td><td>设备标识</td></tr>
+          <tr><td><code>user_name</code></td><td class="req">是</td><td>玩家名</td></tr>
+          <tr><td><code>user_uid</code></td><td class="req">是</td><td>玩家 UID</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>成功 data</b></p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>字段</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>在线人数</code></td><td>当前窗口内在线设备数</td></tr>
+          <tr><td><code>game_uids</code></td><td>在线玩家 UID 数组</td></tr>
+          <tr><td><code>online_list</code></td><td>在线明细（最多 200 条）</td></tr>
+          <tr><td><code>is_peer</code></td><td>是否存在同 UID 的同行</td></tr>
+          <tr><td><code>心跳间隔</code> / <code>心跳间隔秒</code></td><td>心跳周期</td></tr>
+          <tr><td><code>在线判定窗口秒</code></td><td>在线窗口</td></tr>
+          <tr><td><code>server_time</code></td><td>服务器时间戳</td></tr>
+        </tbody>
+      </table></div>
+
+      <!-- 9 -->
+      <h2 id="cloud"><span class="num">09</span>云更新 <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/Cloudupdate.php</span></h2>
+
+      <h3 id="check_version">9.1 版本检查 <span class="tag" style="font-size:11px">action=check_version</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>Name</code></td><td>否</td><td>本机 SO 文件名；别名 <code>file_name</code></td></tr>
+          <tr><td><code>MD5</code></td><td>否</td><td>本机文件摘要；别名 <code>md5</code></td></tr>
+          <tr><td><code>version</code></td><td>否</td><td>本机版本号</td></tr>
+        </tbody>
+      </table></div>
+      <p>返回 <code>need_update</code>（0/1）、<code>has_file</code>、<code>source</code>（<code>local</code>/<code>remote</code>）、<code>file_id</code>、<code>file_name</code>、<code>latest_md5</code>、<code>file_size</code>、<code>version</code>、<code>update_content</code>、<code>download_url</code>。</p>
+      <div class="note">版本号只要与云端<b>不一致</b>就触发更新（允许回退版本号），不要求单调递增。</div>
+
+      <h3 id="update_manifest">9.2 完整清单 <span class="tag" style="font-size:11px">action=get_update_manifest</span></h3>
+      <p>无参数。一次返回全部已加入云更新的文件（不分页，上限 2000 条）：</p>
+<pre><code>{
+  "file_list": [ { "file_id": 18, "file_name": "libProject.so", "file_size": 23871416,
+                   "file_md5": "700db3...8250", "source": "local" } ],
+  "latest_version": "3.0",
+  "update_content": "本次更新内容",
+  "remaining_times": 2999
+}</code><button class="copy">复制</button></pre>
+
+      <h3 id="download_url">9.3 获取下载地址 <span class="tag" style="font-size:11px">action=get_download_url</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>file_id</code></td><td class="req">是</td><td>来自清单或版本检查</td></tr>
+          <tr><td><code>device_id</code></td><td>建议</td><td>票据与设备绑定，防止链接被别处回执扣次</td></tr>
+        </tbody>
+      </table></div>
+      <p>本地文件返回 <code>download_url</code>（带一次性票据）、<code>ticket</code>、<code>file_name</code>、<code>file_size</code>、<code>file_md5</code>、<code>remaining_times</code>；外链文件直接返回三方地址，<b>不发票据、不扣次</b>。</p>
+
+      <h3 id="confirm_download">9.4 下载回执 <span class="tag" style="font-size:11px">action=confirm_download</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>file_id</code></td><td class="req">是</td><td>文件编号</td></tr>
+          <tr><td><code>ticket</code></td><td>本地文件必填</td><td>取地址时返回的票据</td></tr>
+          <tr><td><code>device_id</code></td><td>建议</td><td>与取票据时一致</td></tr>
+          <tr><td><code>md5_ok</code></td><td>是</td><td>本地 MD5 与清单一致时传 <code>1</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>返回 <code>confirmed</code>、<code>charged</code>（是否扣次）、<code>source</code>、<code>remaining_times</code>。票据只能成功回执一次，重复回执不会重复扣次。</p>
+
+      <!-- 10 -->
+      <h2 id="cloudcontrol"><span class="num">10</span>云控通道 <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/cloud-client.php</span></h2>
+      <p class="lead">远程下发配置（开关、数值、下拉、按钮），仅会员应用可用。通道复用同一套加密信封，但内层字段固定 15 个，且必须显式 v2 签名。</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>字段</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>action</code></td><td>固定 <code>sdk_sync</code></td></tr>
+          <tr><td><code>app_id</code></td><td>必须与外层一致</td></tr>
+          <tr><td><code>developer_uid</code></td><td>开发者账号，必须与所有者一致</td></tr>
+          <tr><td><code>password</code> / <code>token</code></td><td>安全请求凭据（应用开启时必填）</td></tr>
+          <tr><td><code>card_key</code> / <code>device_id</code></td><td>当前登录的卡密与设备</td></tr>
+          <tr><td><code>capabilities</code></td><td>客户端支持的控件能力，JSON 数组字符串</td></tr>
+          <tr><td><code>acks</code></td><td>已确认的指令回执，JSON 数组字符串</td></tr>
+          <tr><td><code>signature_version</code></td><td>固定 <code>2</code></td></tr>
+          <tr><td><code>signature_scope</code></td><td>固定 <code>cloud_control</code></td></tr>
+          <tr><td><code>timestamp</code> / <code>nonce</code> / <code>rc</code></td><td>时间戳、一次性随机数、请求标识</td></tr>
+          <tr><td><code>signature</code></td><td>v2 规范串签名</td></tr>
+        </tbody>
+      </table></div>
+      <p>响应会在 <code>data</code> 中绑定本次 <code>rc</code>、<code>request_nonce</code>、<code>signature_scope</code>、<code>app_id</code>、<code>card_key</code>、<code>device_id</code>，客户端必须逐项比对，不一致直接丢弃。</p>
+      <div class="note warn">云控要求应用所有者是会员。非会员返回失败，不会下发任何配置。</div>
+
+      <!-- 11 -->
+      <h2 id="errors"><span class="num">11</span>错误码</h2>
+      <p>错误分三层，排查时按顺序看：<b>HTTP 状态码</b> → <b>业务码 code</b> → <b>SDK 本地错误</b>。接口正常工作时始终返回 HTTP 200，业务失败是 200 + <code>success=false</code>。</p>
+      <h3>HTTP 状态码</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>状态码</th><th>含义</th><th>常见原因</th><th>处理建议</th></tr></thead>
+        <tbody>
+          <tr><td><code>200</code></td><td>成功</td><td>—</td><td>检查 <code>success</code> 与 <code>code</code></td></tr>
+          <tr><td><code>400</code></td><td>请求格式错误</td><td>不是合法 JSON；缺少 <code>developer_username</code>/<code>app_id</code>/<code>iv</code>/<code>data</code>；密文损坏</td><td>核对请求体字段与加密方式是否与后台一致</td></tr>
+          <tr><td><code>401</code></td><td>未授权</td><td>访问了需要后台登录的管理接口，或令牌过期</td><td>客户端接口不会返回此码，出现即地址写错</td></tr>
+          <tr><td><code>403</code></td><td>被拒绝</td><td>无权限、IP 受限、被防火墙或 WAF 拦截</td><td>检查服务器安全策略</td></tr>
+          <tr><td><code>404</code></td><td>路径不存在</td><td>端点写错（例如 <code>/api/key.php</code> 写成 <code>/api/env/key.php</code>）</td><td>核对基础地址</td></tr>
+          <tr><td><code>405</code></td><td>方法不允许</td><td>用了 GET / PUT</td><td>改为 POST</td></tr>
+          <tr><td><code>413</code></td><td>请求体过大</td><td>超过 1 MiB</td><td>压缩或分文件</td></tr>
+          <tr><td><code>429</code></td><td>请求过多</td><td>触发限流</td><td>退避后重试</td></tr>
+          <tr><td><code>500</code> / <code>502</code> / <code>503</code> / <code>504</code></td><td>服务端异常</td><td>PHP 错误、网关超时</td><td>重试；持续出现联系服务方</td></tr>
+        </tbody>
+      </table></div>
+      <h3>业务码</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>code</th><th>含义</th><th>典型 message</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code></td><td>成功</td><td>成功</td></tr>
+          <tr><td><code>1001</code></td><td>参数缺失或格式非法</td><td>机器码不能为空 / user_name / user_uid 不能为空</td></tr>
+          <tr><td><code>1004</code></td><td>时间戳或 nonce 校验失败</td><td>请求已过期，请校准本机时间 / 重复请求，请勿重试</td></tr>
+          <tr><td><code>1005</code></td><td>权限、凭据或白名单不通过</td><td>安全请求密码错误 / 该接口不允许此操作</td></tr>
+          <tr><td><code>1006</code></td><td>价格或配置已变化，需要重试</td><td>价格已更新，请重新确认</td></tr>
+          <tr><td><code>2001</code></td><td>卡密不存在或参数无效</td><td>卡密不存在 / 请输入卡密</td></tr>
+          <tr><td><code>2002</code></td><td>卡密已到期</td><td>卡密已到期</td></tr>
+          <tr><td><code>2003</code></td><td>解绑冷却或次数不足</td><td>解绑失败,换绑时间不足</td></tr>
+          <tr><td><code>2005</code></td><td>卡密已被禁用</td><td>卡密已被禁用</td></tr>
+          <tr><td><code>2006</code></td><td>用户已被封禁</td><td>用户已被封禁</td></tr>
+          <tr><td><code>3001</code></td><td>应用已关闭</td><td>应用已关闭</td></tr>
+          <tr><td><code>3003</code></td><td>功能未开启</td><td>程序公告功能已关闭</td></tr>
+          <tr><td><code>9999</code></td><td>其它业务失败</td><td>见 message</td></tr>
+        </tbody>
+      </table></div>
+      <h3>排查顺序</h3>
+      <ol>
+        <li>用 <code>curl</code> 直接打接口，确认 HTTP 200 且返回可解密（排掉域名、证书、网关）。</li>
+        <li>看返回是 <code>JiYan_Error…</code> 还是 JSON：前者说明没进业务（应用编号、加密配置）。</li>
+        <li>JSON 里 <code>success=false</code> 看 <code>code</code>：<code>1005</code> 多为凭据/白名单，<code>2001/2002/2006</code> 是卡密本身。</li>
+        <li>签名失败先核对 <code>sign_type</code>、<code>sign_key</code> 是否与后台一致，再核对规范串（长度用字节、按 name 排序）。</li>
+        <li>仍然不通，把 <code>rc</code>、时间、返回原文一起提供给服务方排查。</li>
+      </ol>
+
+      <!-- 12 -->
+      <h2 id="heartbeat"><span class="num">12</span>心跳与在线</h2>
+      <p>在线状态由「心跳时间戳 + 在线判定窗口」共同决定。两个字段都由服务端下发，客户端不要写死：</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>字段</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>心跳间隔秒</code></td><td>建议的心跳周期（默认 10 秒，可后台调整）</td></tr>
+          <tr><td><code>在线判定窗口秒</code></td><td>超过该时长未心跳即视为离线（约为间隔的 4 倍，最小 30 秒）</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>验证成功后立即开始心跳；窗口内至少成功一次才算在线。</li>
+        <li>心跳失败按错误码处理：<code>2006</code>/<code>2002</code> 停止功能，网络类错误可退避重试。</li>
+        <li>退出游戏时不必额外调用接口，停止心跳即可在窗口后自动离线。</li>
+      </ul>
+
+      <!-- 13 -->
+      <h2 id="limits"><span class="num">13</span>限制与建议</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>项目</th><th>限制</th></tr></thead>
+        <tbody>
+          <tr><td>请求体</td><td>≤ 1 MiB</td></tr>
+          <tr><td>云控解密后参数</td><td>≤ 64 KiB</td></tr>
+          <tr><td>时间戳偏差</td><td>±300 秒</td></tr>
+          <tr><td>nonce</td><td>16–64 位，一次性</td></tr>
+          <tr><td>云更新清单</td><td>≤ 2000 个文件</td></tr>
+          <tr><td>建卡</td><td>单次 ≤ 500 张，受卡密余额限制</td></tr>
+          <tr><td>下载次数</td><td>按应用流量包扣减，回执成功才扣</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>心跳周期不要小于 10 秒；在线人数多时优先增大周期，而不是并发重试。</li>
+        <li>每台设备只保留一个心跳线程；重连时复用同一个 <code>device_id</code>。</li>
+        <li>下载大文件用 Range 续传，失败从断点继续；不要整包重下。</li>
+        <li>所有请求都应校验响应签名与 <code>data.rc</code>，防止中间设备篡改或串包。</li>
+      </ul>
+
+      <!-- 14 -->
+      <h2 id="sdkerrors"><span class="num">14</span>SDK 本地错误</h2>
+      <p>以下错误由客户端本地产生，不会出现服务端日志，遇到时优先检查本地配置：</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>错误文本</th><th>原因</th></tr></thead>
+        <tbody>
+          <tr><td>请求体不能为空</td><td>未提交任何参数</td></tr>
+          <tr><td>应用请求参数为空</td><td>缺少 <code>developer_username</code> / <code>app_id</code></td></tr>
+          <tr><td>响应解密失败</td><td><code>encrypt_format</code> / <code>api_key</code> 与后台不一致</td></tr>
+          <tr><td>响应签名校验失败</td><td><code>sign_type</code> / <code>sign_key</code> 不一致，或 data 被重新序列化</td></tr>
+          <tr><td>响应请求标识不匹配</td><td><code>data.rc</code> 与本次请求不一致（串包或缓存）</td></tr>
+          <tr><td>网络连接失败</td><td>DNS、防火墙、域名或端口不通</td></tr>
+          <tr><td>接口返回失败（未签名）</td><td>应用未启用签名，服务端失败响应无法校验，仅作提示</td></tr>
+        </tbody>
+      </table></div>
+
+      <!-- 15 -->
+      <h2 id="changelog"><span class="num">15</span>变更记录</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>版本</th><th>变更</th></tr></thead>
+        <tbody>
+          <tr><td>1.7</td><td>心跳改为按秒下发与执行；云控放开加密/签名算法限制（仅校验配置所需密钥与会员身份）；新增 <code>create_card_client</code>；客户端建卡开放；补全 HTTP 状态码说明。</td></tr>
+          <tr><td>1.6</td><td>全部客户端动作迁移到 HTTP API 站点；新增 <code>get_update_manifest</code>；下载支持 Range 续传。</td></tr>
+          <tr><td>1.5</td><td>HTTPS 通道、响应验签、卡密会话与心跳。</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="foot">
+        <span>极验云 · 开发者文档</span>
+        <a href="/">返回首页</a>
+        <a href="/en/api-docs.html">English</a>
+      </div>
+    </article>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  function apply(t){root.setAttribute('data-theme',t);try{localStorage.setItem('jy_theme',t)}catch(e){}}
+  var saved='auto';try{saved=localStorage.getItem('jy_theme')||'auto'}catch(e){}
+  apply(saved);
+  function toggle(){var cur=root.getAttribute('data-theme');apply(cur==='dark'?'light':'dark');}
+  document.getElementById('themeBtn').onclick=toggle;
+  document.getElementById('themeBtn2').onclick=toggle;
+
+  // copy buttons
+  document.querySelectorAll('pre .copy').forEach(function(b){
+    b.onclick=function(){
+      var code=b.parentNode.querySelector('code');
+      var text=code?code.innerText:'';
+      var done=function(){b.textContent='已复制';setTimeout(function(){b.textContent='复制'},1200)};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,done)}
+      else{var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);done()}
+    };
+  });
+
+  // scroll spy
+  var links=[].slice.call(document.querySelectorAll('#nav a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id)}).filter(Boolean);
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      links.forEach(function(a){a.classList.remove('on')});
+      var a=map[e.target.id];if(a){a.classList.add('on')}
+    });
+  },{rootMargin:'-15% 0px -70% 0px',threshold:0});
+  targets.forEach(function(t){io.observe(t)});
+
+  // mobile drawer
+  var side=document.getElementById('side'),mask=document.getElementById('mask');
+  function close(){side.classList.remove('open');mask.classList.remove('on')}
+  document.getElementById('menuBtn').onclick=function(){side.classList.add('open');mask.classList.add('on')};
+  mask.onclick=close;
+  links.forEach(function(a){a.addEventListener('click',close)});
+})();
+</script>
+</body>
+</html>

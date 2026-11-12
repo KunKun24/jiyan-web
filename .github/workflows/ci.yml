@@ -2,21 +2,27 @@ name: CI
 
 on:
   push:
-    branches: [main]
   pull_request:
 
-permissions:
-  contents: read
-
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - uses: shivammathur/setup-php@v2
         with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm test
-      - run: npm run build
+          php-version: "8.3"
+          coverage: none
+
+      - name: PHP lint
+        run: |
+          find public -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Secret scan
+        run: |
+          set -e
+          if grep -rInE '/www/wwwroot|Fcuk/Admin|k7Qz9x|JiYan_EnvV13_Sign|BEGIN (RSA |EC )?PRIVATE KEY' public/ ; then
+            echo "Forbidden string found"; exit 1
+          fi
+          echo "OK"

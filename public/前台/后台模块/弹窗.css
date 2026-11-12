@@ -1,0 +1,215 @@
+.弹窗遮罩 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1005;
+    padding: 20px;
+    background: #0000002e;
+    box-sizing: border-box;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    animation: fadeInOverlay 0.3s ease-out;
+    will-change: opacity;
+}
+.弹窗遮罩2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1005;
+    padding: 20px;
+    background: #0000002e;
+    box-sizing: border-box;
+    animation: fadeInOverlay 0.3s ease-out;
+    will-change: opacity;
+}
+
+@keyframes fadeInOverlay {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.弹窗背景 {
+    background: rgb(255 255 255 / 80%);
+    padding: 0;
+    border-radius: 10px;
+    animation: scaleFadeWithBounce 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.弹窗内部 {
+    padding: 10px 20px 10px 20px;
+    width: 340px;
+    max-height: 450px;
+    overflow-y:auto;
+}
+
+@media (max-width: 600px) {/*移动端*/
+    .弹窗内部 {width: 300px;}
+}
+
+.弹窗底部 {
+    padding: 00px 20px 10px 20px;
+    display: flex;
+    justify-content:flex-end;
+    gap: 10px;
+}
+
+@keyframes scaleFadeWithBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.弹窗头部 {
+    height: 50px;
+padding: 10px 15px;
+                border-bottom: 1px solid #f0f0f0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+background: rgb(255 255 255 / 80%);
+            border-radius: 10px;
+}
+                          
+                        
+
+.弹窗头部文字 {
+display: flex;
+align-items:
+center; gap: 8px;
+}
+
+
+.弹窗头部关闭按钮 {
+  background: none;
+                            border: none;
+                            font-size: 20px;
+                            cursor: pointer;
+                            color: #999;
+                            line-height: 1;
+                            padding: 0;
+}
+
+
+.弹窗左按钮 {
+
+padding: 8px 16px;
+background: #f8f9fa;
+color: #666;
+border: 1px solid #ddd;
+border-radius: 20px;
+cursor: pointer;
+font-size: 13px;
+min-width: 70px;
+transition: all 0.2s;
+}
+.弹窗右按钮 {
+
+ padding: 8px 16px;
+                                background: #28a745;
+                                color: white;
+                                border: none;
+                                border-radius: 20px;
+                                cursor: pointer;
+                                font-size: 13px;
+                                font-weight: 500;
+                                min-width: 70px;
+                                transition: all 0.2s;
+}
+/* ============================================================
+   用户等级徽章 / VIP 徽章 / 升级进度（第五轮 · 标签体系）
+   与 src/UserTier.php 的 TIERS 配色保持一致
+   ============================================================ */
+.jy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: #fff;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, .16);
+  vertical-align: middle;
+  transition: transform .18s ease, box-shadow .18s ease;
+  background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+}
+.jy-badge i { font-size: 11px; opacity: .95; }
+.jy-badge:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(15, 23, 42, .22); }
+
+.jy-badge-L0 { background: linear-gradient(135deg, #94a3b8, #cbd5e1); }
+.jy-badge-L1 { background: linear-gradient(135deg, #38bdf8, #0ea5e9); }
+.jy-badge-L2 { background: linear-gradient(135deg, #34d399, #10b981); }
+.jy-badge-L3 { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
+.jy-badge-L4 { background: linear-gradient(135deg, #fb923c, #f97316); }
+.jy-badge-L5 { background: linear-gradient(135deg, #f472b6, #ec4899); }
+.jy-badge-L6 { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+.jy-badge-L7 { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+.jy-badge-vip {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  color: #451a03 !important;
+  border: 1px solid #fde68a;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, .38), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+.jy-badge-vip i { color: #78350f; }
+
+.jy-tier-progress {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 9px 0 0;
+  max-width: 420px;
+}
+.jy-tier-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, .22);
+  overflow: hidden;
+  min-width: 90px;
+}
+.jy-tier-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+  transition: width .55s cubic-bezier(.22, .61, .36, 1);
+}
+.jy-tier-progress span {
+  font-size: 11.5px;
+  color: #6c757d;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .jy-badge { margin-left: 8px; font-size: 11px; padding: 3px 9px; }
+  .jy-tier-progress { max-width: 100%; }
+  .jy-tier-progress span { font-size: 11px; }
+}

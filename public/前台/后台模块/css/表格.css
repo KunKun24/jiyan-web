@@ -1,0 +1,226 @@
+
+
+
+
+
+
+/* 修改空状态样式 */
+.rounded-table-container {
+    height: 100%;
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.rounded-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  overflow: hidden;
+    border-radius: 8px;
+}
+
+/* 表头 */
+.rounded-table thead {
+  background-color:#fffcfc4f;
+}
+
+.rounded-table th {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e5ea;
+  font-weight: 600;
+  color: #000;
+  font-size: 15px;
+  letter-spacing: -0.24px;
+  position: sticky;
+  top: 0;
+}
+
+.rounded-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f2f2f7;
+    text-align: center;
+  color: #1c1c1e;
+  vertical-align: middle;
+  transition: background-color 0.2s ease;
+}
+
+
+/* 行交互 */
+.rounded-table tbody tr:hover {
+  background-color: #e5e5ea9e;
+}
+
+/* 行按下效果 */
+.rounded-table tbody tr:active {
+  background-color: #e5e5ea9e;
+}
+
+/* 列样式 */
+.rounded-table td:first-child {
+  font-weight: 500;
+  color: #000;
+}
+
+.rounded-table td:not(:first-child) {
+  color: #3c3c43;
+  opacity: 0.9;
+}
+
+/* 滚动条 - 极简iOS风格 */
+.rounded-table-container::-webkit-scrollbar {
+  height: 5px;
+}
+
+.rounded-table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rounded-table-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+}
+
+.rounded-table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.24);
+}
+
+
+.rounded-table::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 0, 0, 0.04) 50%, 
+    transparent 100%);
+  pointer-events: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+.表格底部码页 {
+  display: flex; 
+  justify-content: center;  /* 改为居中 */
+  align-items: center; 
+  margin-top: 10px; 
+  padding: 12px 16px; 
+  background: #fffcfc4f; 
+  border-radius: 12px; 
+  flex-wrap: wrap; 
+  gap: 15px;
+}
+
+.分页信息 {
+  display: flex; 
+  gap: 20px; 
+  align-items: center;
+}
+
+.分页按钮 {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 6px; 
+  padding: 6px 12px; 
+  background: #f7f7f79e; 
+  border-radius: 20px; 
+  font-size: 13px; 
+  color: #495057; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);
+}
+
+.分页按钮 span {
+  font-weight: 500;
+}
+
+.统计数字高亮 {
+  font-weight: 600; 
+  color: #ff6fb8;
+}
+
+.分页按钮组 {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  gap: 8px; 
+  flex-wrap: wrap;
+}
+
+.分页按钮组按钮 {
+  background: #f7f7f79e; 
+  border: none; 
+  color: #495057; 
+  padding: 6px 12px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-size: 14px; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  min-width: 36px; 
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+.分页按钮组按钮:hover {
+  background: #ff6fb8;
+  border-color: #ff6fb8;
+  color: #f7f7f79e;
+}
+
+/* 页码容器 */
+.页码容器 {
+  display: flex; 
+  gap: 4px; 
+  align-items: center;
+}
+
+/* 页码数字基础样式 */
+.页码数字 {
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  min-width: 32px; 
+  height: 32px; 
+  padding: 0 6px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-size: 13px; 
+  transition: all 0.2s ease;
+}
+
+/* 当前页码样式 */
+.页码数字.当前页码 {
+  background: #ff6fb8; 
+  border: 1px solid #ff6fb8; 
+  color: #f7f7f79e; 
+  box-shadow: 0 2px 8px rgba(255, 111, 184, 0.3);
+  box-shadow: var(--shadow);
+}
+
+/* 其他页码样式（动态生成时使用） */
+.页码数字:not(.当前页码) {
+  background: #f7f7f79e; 
+  border: 1px solid #dee2e6; 
+  color: #495057;
+}
+
+.页码数字:not(.当前页码):hover {
+  background: #ff6fb8;
+  border-color: #ff6fb8;
+  color: #f7f7f79e;
+}

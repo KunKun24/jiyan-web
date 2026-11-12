@@ -1,9 +1,14 @@
-node_modules/
-dist/
-coverage/
+# private backend / runtime data
+backend/
+config.php
+*.local.php
+uploads/
+data/
+storage/
+*.log
+
+# editors
+.idea/
+.vscode/
 .DS_Store
-*.local
-.env
-.env.*
-!.env.example
-npm-debug.log*
+Thumbs.db

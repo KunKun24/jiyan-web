@@ -1,0 +1,146 @@
+/* ============================================================
+   侧边栏 · 细节微调（2026-11-12）
+   ------------------------------------------------------------
+   只做「加一点新鲜感」的细节调整，不改结构、不加新功能：
+     · 玻璃更通透一点（blur 5 → 14），阴影更柔
+     · 品牌区收紧：logo 42 → 38，标题 18 → 17，副标题降一档
+     · 主题开关从整行压成一条小胶囊，导航多出约 12px 高度
+     · 分组标题只调字号/字距/颜色，不加竖线、不改文案
+     · 导航行高统一 40，图标 15px、固定 18px 宽，文字 13.5
+     · 选中仍是黑块，改成「上浅下深」的微渐变 + 顶部 1px 内高光，
+       阴影更收敛，久看不闷
+   回滚：删掉 <body class="sb-v2"> 与这个文件的 <link> 即可。
+   ============================================================ */
+
+/* ── 面板本身：仍是贴边 230px，只换质感 ───────────────── */
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar {
+    background: rgba(255, 255, 255, .66) !important;
+    border-right: 1px solid rgba(0, 0, 0, .07) !important;
+    backdrop-filter: blur(14px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+    box-shadow: 0 10px 36px rgba(0, 0, 0, .06) !important;
+}
+
+/* ── 品牌区 ───────────────────────────────────────────── */
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar-header {
+    padding: 18px 18px 14px !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar-logo {
+    gap: 11px !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar-logo-img {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .10) !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar-logo-title {
+    font-size: 17px !important;
+    font-weight: 650 !important;
+    letter-spacing: -.3px !important;
+    line-height: 1.2;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar-logo-subtitle {
+    font-size: 10.5px !important;
+    color: #9a9aa0 !important;
+    margin: 2px 0 0 !important;
+    letter-spacing: .01em;
+}
+
+/* ── 分组标题：只调字号/字距，不加装饰 ────────────────── */
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar-nav {
+    padding: 6px 0 12px !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-section {
+    margin-bottom: 6px !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .section-title {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: .05em !important;
+    color: #a1a1a6 !important;
+    padding: 12px 20px 5px !important;
+    margin-top: 2px !important;
+}
+
+/* ── 导航项：行高统一，图标收细 ───────────────────────── */
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item {
+    min-height: 40px;
+    margin: 2px 10px !important;
+    padding: 0 13px !important;
+    border-radius: 10px !important;
+    color: #3a3a3c !important;
+    font-size: 13.5px !important;
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item i {
+    width: 18px !important;
+    margin-right: 11px !important;
+    font-size: 15px !important;
+    color: #8e8e93;
+    transition: color .15s ease;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item span {
+    font-size: 13.5px !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item:hover {
+    background: rgba(0, 0, 0, .045) !important;
+    color: #1d1d1f !important;
+}
+
+/* 选中：保留黑块，换成微渐变 + 顶部内高光 */
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item.active {
+    background: linear-gradient(180deg, #17171a 0%, #0b0b0d 100%) !important;
+    color: #fff !important;
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, .16),
+        inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item.active i {
+    color: #fff !important;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item.active span {
+    font-weight: 500;
+}
+
+/* ── 滚动条：细一点 ───────────────────────────────────── */
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .14);
+    border-radius: 999px;
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, .24);
+}
+
+html:not([data-jy-theme="dark"]) body.sb-v2 .sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ── 移动端：不改抽屉逻辑，仅同步行高 ─────────────────── */
+@media (max-width: 844px) {
+    html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item {
+        min-height: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:not([data-jy-theme="dark"]) body.sb-v2 .nav-item {
+        transition: none !important;
+    }
+}

@@ -1,0 +1,64 @@
+
+
+
+     .top-bar { height: 60px; background: #ffffffad; border-bottom: 1px solid rgba(0, 0, 0, 0.08); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 50; backdrop-filter: blur(5px); }
+        .page-title { font-size: 18px; font-weight: 700;   white-space: nowrap;}
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        
+        
+.balance-btn {
+  padding: 8px 14px;
+  background: #fffcfc4f;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;   /* 数字等宽，金额跳动不抖 */
+  letter-spacing: .2px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  /* 旧规则 max-width:65px + overflow:hidden 会把大额余额直接裁掉（如 ¥389053.61 变 ¥38905）
+     改成：按内容自适应 + 最小宽度，超长时用省略号并保留完整值到 title */
+  width: auto;
+  min-width: 84px;
+  max-width: 42vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+/* 窄屏：再收一级，但保证能放下 6 位整数 + 2 位小数 */
+@media (max-width: 420px) {
+  .balance-btn {
+    min-width: 72px;
+    max-width: 34vw;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+
+.balance-btn:hover {
+    transform: translateY(-2px);
+}
+
+
+
+
+        .top-btn { padding: 8px 16px; background: #000; color: #fff; border-radius: 10px; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: all 0.2s; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 10px; background:#f5f5f7; border: none; color: #1d1d1f; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .icon-btn:hover { background: rgba(0, 0, 0, 0.08); }
+
+
+/* 页头：面包屑 + 标题（仅用户后台，后台管理端不受影响） */
+.page-heading { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.page-crumb { font-size: 10.5px; line-height: 1; color: #8e8e93; letter-spacing: .02em; white-space: nowrap; }
+.page-heading .page-title { font-size: 21px; font-weight: 600; letter-spacing: -.01em; line-height: 1.1; }
+@media (max-width: 640px) { .page-heading .page-title { font-size: 18px; } .page-crumb { font-size: 10px; } }
+html[data-jy-theme="dark"] .page-crumb { color: #8e8e93; }

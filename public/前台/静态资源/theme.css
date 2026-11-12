@@ -1,0 +1,262 @@
+/* Shared theme overrides. Original layout and wallpaper assets stay intact. */
+.jy-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: rgb(255 255 255 / 25%);
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  /* 侧栏是 flex column，此行必须固定高度，否则 nav 撑开时会被压扁 */
+  flex: 0 0 auto;
+}
+.jy-theme-switch { position: relative; display: inline-flex; width: 48px; height: 26px; flex: 0 0 48px; cursor: pointer; margin: 0; }
+.jy-theme-switch input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; z-index: 1; }
+.jy-theme-track { position: absolute; inset: 0; border-radius: 26px; background: rgb(0 0 0 / 12%); box-shadow: inset 0 1px 3px rgb(0 0 0 / 10%); transition: background-color .2s; }
+.jy-theme-track::after { content: ''; position: absolute; height: 20px; width: 20px; left: 3px; top: 3px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgb(0 0 0 / 15%); transition: transform .2s; }
+.jy-theme-switch input:checked + .jy-theme-track { background: #00b702; }
+.jy-theme-switch input:checked + .jy-theme-track::after { transform: translateX(22px); }
+.jy-theme-switch input:focus-visible + .jy-theme-track { outline: 2px solid #1684dc; outline-offset: 3px; }
+
+/* Dark mode: dim the wallpaper, keep every panel as translucent glass. */
+html[data-jy-theme="dark"] {
+  color-scheme: dark;
+  --shadow: 0 6px 20px rgb(0 0 0 / 26%);
+  --jy-glass: rgb(26 28 34 / 40%);
+  --jy-glass-soft: rgb(255 255 255 / 8%);
+  --jy-glass-line: rgb(255 255 255 / 13%);
+  --jy-text: #e9eaee;
+  --jy-text-dim: #b9bcc4;
+}
+html[data-jy-theme="dark"] body {
+  background-color: #8b8e95;
+  background-blend-mode: multiply;
+  color: var(--jy-text);
+}
+html[data-jy-theme="dark"] :is(.sidebar, .top-bar, .card, .sidebar-footer, .card-header) {
+  background-color: var(--jy-glass) !important;
+  color: var(--jy-text) !important;
+  border-color: var(--jy-glass-line) !important;
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+html[data-jy-theme="dark"] .jy-theme-row {
+  background-color: rgb(255 255 255 / 7%) !important;
+  color: var(--jy-text) !important;
+  border-bottom-color: var(--jy-glass-line) !important;
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+html[data-jy-theme="dark"] :is(.sidebar-header, .card-header, .弹窗头部, .dw-head, .sidebar-footer) {
+  border-color: var(--jy-glass-line) !important;
+}
+html[data-jy-theme="dark"] :is(.sidebar-logo-title, .sidebar-footer-details h4, .page-title, .card-header h3, .card-header-stat-value, .dw-title, .kv .v, .dw-avatar-meta b, .mail-tpl-card h4, .fs-stat .v, .fs-region .rn) {
+  color: var(--jy-text) !important;
+}
+html[data-jy-theme="dark"] :is(.section-title, .sidebar-logo-subtitle, .card-header-stat-label, .adm-hint, .kv .k, .dw-sec h4, .adm-form-row label, .flow-region-title, .flow-map-tip, .fs-stat .k) {
+  color: var(--jy-text-dim) !important;
+}
+html[data-jy-theme="dark"] .nav-item { color: #dfe1e7; }
+html[data-jy-theme="dark"] .nav-item:hover { background-color: rgb(255 255 255 / 10%); }
+html[data-jy-theme="dark"] .nav-item.active { background: rgb(0 0 0 / 42%); color: #fff; }
+html[data-jy-theme="dark"] :is(.rounded-table, .mini-table) :is(th, td) {
+  color: var(--jy-text) !important;
+  border-color: rgb(255 255 255 / 9%) !important;
+}
+html[data-jy-theme="dark"] :is(.rounded-table thead, .mini-table th) { background-color: rgb(255 255 255 / 8%) !important; }
+html[data-jy-theme="dark"] :is(.rounded-table, .mini-table) tbody tr:hover { background-color: rgb(255 255 255 / 9%) !important; }
+html[data-jy-theme="dark"] :is(.card-header-stat, .表格底部码页, .分页按钮, .flow-seg, .admin-badge, .flow-fs-btn, .balance-btn, .icon-btn, .按钮) {
+  background-color: var(--jy-glass-soft) !important;
+  color: var(--jy-text) !important;
+  border-color: var(--jy-glass-line) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+html[data-jy-theme="dark"] :is(.form-control, .adm-form-row input, .adm-upload-row input, .dw-grid input, .dw-grid select, input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]):not([type="hidden"]), select, textarea) {
+  background-color: rgb(10 12 16 / 38%) !important;
+  color: var(--jy-text) !important;
+  border-color: var(--jy-glass-line) !important;
+}
+html[data-jy-theme="dark"] :is(input, textarea)::placeholder { color: #a8acb5 !important; }
+html[data-jy-theme="dark"] :is(input, select, textarea):focus { border-color: #6ab6ff !important; }
+html[data-jy-theme="dark"] :is(.弹窗背景, .弹窗头部, .drawer, .dw-head, .dw-sec, .mail-tpl-card, .adm-stat, .adm-notice, .登录页面_内容) {
+  background-color: rgb(24 26 31 / 55%) !important;
+  color: var(--jy-text) !important;
+  border-color: var(--jy-glass-line) !important;
+  backdrop-filter: blur(20px) saturate(135%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+}
+html[data-jy-theme="dark"] :is(.弹窗遮罩, .弹窗遮罩2, .drawer-mask) { background-color: rgb(0 0 0 / 50%) !important; }
+/* 地图壳：不再用 backdrop-filter。
+   ECharts 拖动/缩放时 canvas 逐帧重绘，浏览器每帧都要重新做一次底层模糊，
+   在移动端会明显掉帧并把画面“洗淡”。改用半透明实色底，视觉几乎一样，
+   拖动时颜色稳定不发虚。 */
+html[data-jy-theme="dark"] .flow-map-shell {
+  background: rgb(20 22 27 / 62%) !important;
+  border-color: var(--jy-glass-line) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-jy-theme="dark"] :is(.fs-stat, .fs-region, .flow-map-tip, .tagx-mute, .adm-info, .adm-check, .dw-close, .dw-btn.ghost, .rowbtn, .弹窗左按钮, .弹窗右按钮, .pager button) {
+  background-color: rgb(255 255 255 / 8%) !important;
+  color: var(--jy-text) !important;
+  border-color: var(--jy-glass-line) !important;
+}
+html[data-jy-theme="dark"] :is(.flow-seg button, .pager, .分页信息, .分页按钮, .dw-note) { color: var(--jy-text-dim); }
+html[data-jy-theme="dark"] .flow-seg button.on { background: rgb(30 144 255 / 82%); color: #fff; }
+html[data-jy-theme="dark"] :is(a, .rowbtn) { color: #96cdff; }
+html[data-jy-theme="dark"] :is(.badge-success, .tagx-ok) { color: #7fe6b0; background-color: rgb(52 199 123 / 18%) !important; }
+html[data-jy-theme="dark"] :is(.badge-warning, .tagx-warn) { color: #ffd894; background-color: rgb(255 184 34 / 18%) !important; }
+html[data-jy-theme="dark"] :is(.badge-danger, .tagx-bad, .rowbtn.danger, .dw-btn.danger) { color: #ffa3a3; background-color: rgb(220 38 38 / 18%) !important; }
+html[data-jy-theme="dark"] :is([style*="color: #000"], [style*="color:#000"], [style*="color: #333"], [style*="color:#333"], [style*="color: #1e293b"], [style*="color:#1e293b"], [style*="color: #2a2e3e"], [style*="color:#2a2e3e"], [style*="color: #1c1c1e"], [style*="color:#1c1c1e"]) { color: var(--jy-text) !important; }
+html[data-jy-theme="dark"] :is([style*="color: #212529"], [style*="color:#212529"], [style*="color: #343a40"], [style*="color:#343a40"], [style*="color: #2c2c2e"], [style*="color:#2c2c2e"], [style*="color: #1d1d1f"], [style*="color:#1d1d1f"]) { color: var(--jy-text) !important; }
+html[data-jy-theme="dark"] :is([style*="color: #495057"], [style*="color:#495057"], [style*="color: #86868b"], [style*="color:#86868b"], [style*="color: #8e8e93"], [style*="color:#8e8e93"]) { color: var(--jy-text-dim) !important; }
+html[data-jy-theme="dark"] :is([style*="color: #666"], [style*="color:#666"], [style*="color: #64748b"], [style*="color:#64748b"]) { color: var(--jy-text-dim) !important; }
+html[data-jy-theme="dark"] :is([style*="background: #fff"], [style*="background:#fff"], [style*="background-color: #fff"], [style*="background-color:#fff"]) { background-color: rgb(255 255 255 / 8%) !important; }
+@media (prefers-reduced-motion: reduce) { .jy-theme-track, .jy-theme-track::after { transition: none; } }
+/* ============================================================
+   流向图全屏兜底
+   原 admin.css 的 .flow-map-shell.is-fullscreen 写死 background:#f4f8fd
+   且没有 !important，会被上面深色规则（!important 半透明）覆盖，
+   导致全屏时整块半透明、透出后面的页面内容。
+   这里给全屏单独一个近乎不透明的底色，保持「看地图」而非「看背景」。
+   ============================================================ */
+html[data-jy-theme="dark"] .flow-map-shell.is-fullscreen {
+  background: rgb(10 13 18 / 97%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-jy-theme="dark"] .flow-map-shell.is-fullscreen .flow-map-tip {
+  background: rgb(255 255 255 / 10%) !important;
+  color: var(--jy-text-dim) !important;
+}
+/* 全屏时退出按钮需要足够对比，不能被玻璃规则洗淡 */
+.flow-map-shell.is-fullscreen .flow-exit-fs {
+  background: #1e293bf2;
+  box-shadow: 0 6px 22px rgb(0 0 0 / 40%);
+}
+
+/* 极验全球业务态势 · 管理端布局（覆盖层，不改原始业务 CSS） */
+.flow-card .flow-panel { display: none; }
+#flowMapShell { min-height: 440px; background: transparent !important; border: 0 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+#flowMapShell .flow-map { height: 440px; }
+#flowMapShell.is-fullscreen { position: fixed !important; inset: 0 !important; z-index: 99999 !important; width: 100vw !important; height: 100vh !important; height: 100dvh !important; border-radius: 0 !important; border: none !important; background: #020611 !important; }
+#flowMapShell.is-fullscreen .flow-map { height: 100% !important; min-height: 0 !important; }
+#flowMapShell.is-fullscreen .flow-exit-fs { display: inline-flex; }
+body.flow-fs-lock { overflow: hidden; }
+body.flow-window-mode #adminSidebar, body.flow-window-mode .top-bar, body.flow-window-mode .topbar, body.flow-window-mode .sidebar-overlay { display: none !important; }
+body.flow-window-mode #adminApp .main-content { width: 100% !important; margin: 0 !important; padding: 0 !important; min-height: 100vh !important; }
+body.flow-window-mode #adminApp .content { padding: 0 !important; }
+body.flow-window-mode #adminApp .page:not(#page-flow) { display: none !important; }
+body.flow-window-mode #adminApp .card.flow-card { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; margin: 0 !important; }
+body.flow-window-mode #adminApp .flow-card .card-header { display: none !important; }
+body.flow-window-mode #adminApp .flow-card .card-body { padding: 0 !important; }
+body.flow-window-mode #adminApp .flow-grid { display: block !important; }
+@media (max-width: 845px) {
+  .flow-tools { flex-wrap: wrap; gap: 6px !important; }
+  .flow-card .flow-grid { display: flex !important; flex-direction: column !important; gap: 10px !important; }
+  #flowMapShell { min-height: 300px; width: 100% !important; }
+  #flowMapShell .flow-map { height: 52vh !important; min-height: 280px; }
+}
+
+/* backdrop-filter 会在祖先元素上建立包含块，导致 position:fixed 的全屏地图被父级偏移；
+   全屏时移除祖先的毛玻璃滤镜，保证地图真正铺满视口。 */
+body.flow-fs-lock .flow-card,
+body.flow-fs-lock .card,
+body.flow-fs-lock .content,
+body.flow-fs-lock .main-content {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  contain: none !important;
+}
+
+/* 流向图右上角操作按钮（嵌入/全屏通用） */
+#flowMapShell .jy-flow-actions{position:absolute;top:10px;right:10px;z-index:6;display:flex;gap:6px}
+#flowMapShell .jy-flow-actions button{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border:1px solid rgba(255,255,255,.28);border-radius:8px;background:rgba(15,23,42,.62);color:#f2f8ff;font-size:12px;line-height:1;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .16s,color .16s}
+#flowMapShell .jy-flow-actions button:hover{background:rgba(30,144,255,.92);border-color:rgba(120,200,255,.7)}
+html[data-jy-theme="dark"] #flowMapShell .jy-flow-actions button{background:rgba(8,18,32,.7);border-color:rgba(120,190,240,.3);color:#dbefff}
+#chinaMap .flow-fs-btn{position:absolute;right:12px;top:12px;z-index:5;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:rgba(15,23,42,.62);color:#fff;font-size:12px;cursor:pointer}
+#chinaMap .flow-fs-btn:hover{background:rgba(30,144,255,.92)}
+#chinaMap .flow-note{position:absolute;left:12px;bottom:10px;z-index:5;padding:2px 8px;border-radius:6px;font-size:11px;color:#64748b;background:rgba(255,255,255,.7)}
+#chinaMap.flow-fs .flow-note{color:#94a3b8;background:rgba(15,23,42,.6)}
+
+/* 用户端流向图容器：定位参照 + 不覆盖背景，交由卡片毛玻璃 */
+#chinaMap{position:relative;overflow:hidden;min-height:340px;background:transparent!important}
+#chinaMap.flow-fs{position:fixed!important;inset:0!important;z-index:99999!important;width:100vw!important;height:100vh!important;height:100dvh!important;margin:0!important;border-radius:0!important;background:#020611!important}
+@media(max-width:760px){#chinaMap{min-height:300px}}
+
+/* Three.js globe override layer, 20261020-globe-1. */
+#flowMapShell{min-height:480px!important;background:transparent!important;position:relative!important}
+#flowMapShell #flowMap{height:480px!important;min-height:480px!important;background:transparent!important}
+#flowMap>.jy-globe{position:absolute!important;inset:0!important;height:100%!important}
+#flowMapShell .flow-map-tip{display:none!important}
+#chinaMap{height:430px!important;min-height:320px!important;position:relative!important;background:transparent!important}
+.jy-globe{position:relative!important;isolation:isolate;width:100%;height:100%;min-height:320px;background:transparent!important;overflow:hidden;color:#dcf1fc;font:13px/1.45 -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;letter-spacing:0}
+.jy-globe *{box-sizing:border-box;letter-spacing:0}
+.jy-globe-stage{position:absolute;inset:0;z-index:0;overflow:hidden}
+.jy-globe-flat-canvas{position:absolute;inset:0;width:100%;height:100%;display:none}
+.jy-globe[data-view="flat"] .jy-globe-canvas{display:none!important}
+.jy-globe-canvas{display:block!important;width:100%!important;height:100%!important;touch-action:none;outline:0}
+.jy-globe-heading{position:absolute;left:16px;top:15px;max-width:calc(100% - 260px);pointer-events:none;z-index:2;color:#c9e8fb}
+.jy-globe-heading strong{font-size:15px;display:block;font-weight:600;line-height:1.4}
+.jy-globe-heading small{display:block;font-size:9px;line-height:1.6;opacity:.65}
+.jy-globe-actions{position:absolute;right:12px;top:12px;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;max-width:calc(100% - 20px);z-index:30}
+.jy-globe .jy-globe-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:40px;min-height:40px;padding:0 10px;border:1px solid #37729366;border-radius:5px;background:#061723d9;color:#d6eefc;cursor:pointer;font:12px/1.2 inherit;white-space:nowrap;touch-action:manipulation}
+.jy-globe .jy-globe-button:hover{background:#123447;border-color:#72cbf4}
+.jy-globe .jy-globe-button:focus-visible,.jy-globe input:focus-visible{outline:2px solid #a9e7ff;outline-offset:2px}
+.jy-globe .jy-globe-exit{position:absolute!important;top:max(12px,env(safe-area-inset-top))!important;right:max(12px,env(safe-area-inset-right))!important;z-index:2147483647!important;min-height:44px;min-width:112px;display:none;background:#123a50;border-color:#82d6ff;color:#fff;font-weight:600;pointer-events:auto!important}
+.jy-globe-panel{position:absolute;right:12px;top:62px;width:252px;max-width:calc(100% - 24px);max-height:calc(100% - 112px);display:flex;flex-direction:column;z-index:40;border:1px solid #438ab455;border-radius:6px;background:#04101bec;box-shadow:0 6px 20px #0003;padding:12px;overflow:hidden;color:#d9eafa}
+.jy-globe-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:32px}
+.jy-globe-panel-head strong{font-size:13px;font-weight:600}
+.jy-globe-panel-head .jy-globe-button{min-width:32px;min-height:32px;padding:0 8px}
+.jy-globe-panel-head .jy-globe-button span{display:none}
+.jy-globe-filter-commands{display:flex;align-items:center;gap:4px;margin:10px 0}
+.jy-globe-filter-commands .jy-globe-button{font-size:11px;min-height:36px;padding:0 5px;flex:1;gap:3px}
+.jy-globe-region-list{overflow:auto;min-height:30px;overscroll-behavior:contain;scrollbar-width:thin}
+.jy-globe-region{display:flex;align-items:center;gap:8px;min-height:36px;border-bottom:1px solid #9cd2f010;cursor:pointer;font-size:12px}
+.jy-globe-region input{width:16px;height:16px;margin:0;accent-color:#42c8f5;flex-shrink:0}
+.jy-globe-region span{flex:1;min-width:0;overflow-wrap:anywhere}
+.jy-globe-region b{font-size:12px;font-weight:500;color:#99d2ee;white-space:nowrap}
+.jy-globe-no-regions{padding:12px 0;color:#88a0b0;font-size:12px}
+.jy-globe-hue{display:grid;grid-template-columns:56px minmax(40px,1fr) 34px;align-items:center;gap:6px;padding-top:12px;margin-top:8px;border-top:1px solid #9cd2f024;font-size:11px}
+.jy-globe-hue input{min-width:0;width:100%;height:20px;margin:0;accent-color:#42c8f5}
+.jy-globe-hue output{text-align:right;color:#b0dff2}
+.jy-globe-legend{position:absolute;left:14px;bottom:max(32px,calc(env(safe-area-inset-bottom) + 24px));z-index:36;display:flex;flex-direction:column;gap:4px;pointer-events:none;background:#04101fb3;border:1px solid #38688066;border-radius:5px;padding:6px 9px}
+.jy-globe-legend-row{display:flex;align-items:center;gap:7px;color:#c3dced;font-size:11px;line-height:1.5;white-space:nowrap}
+.jy-globe-legend-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 6px currentColor}
+.jy-globe-expanded .jy-globe-legend{bottom:max(52px,calc(env(safe-area-inset-bottom) + 44px));font-size:12px}
+.jy-globe-status{position:absolute;left:14px;bottom:max(10px,env(safe-area-inset-bottom));right:14px;z-index:3;color:#8caabd;font-size:10px;pointer-events:none;line-height:1.5;overflow-wrap:anywhere}
+.jy-globe-empty{position:absolute;left:50%;bottom:56px;transform:translateX(-50%);z-index:3;max-width:calc(100% - 28px);width:max-content;text-align:center;color:#b8d1df;font-size:12px;pointer-events:none}
+.jy-globe-windows{position:absolute;left:50%;bottom:max(30px,calc(env(safe-area-inset-bottom) + 22px));transform:translateX(-50%);z-index:45;display:flex;border:1px solid #38688088;border-radius:5px;background:#061523e8;padding:3px;gap:2px}
+.jy-globe-windows button{height:36px;min-width:57px;padding:0 9px;border:0;background:transparent;border-radius:3px;color:#8ea9bd;cursor:pointer;font-size:12px}
+.jy-globe-windows button.on{background:#154766;color:#ecf9ff}
+.jy-globe.jy-globe-expanded{background:#020611!important}
+.jy-globe.jy-globe-fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;border-radius:0!important;z-index:2147483000!important;min-height:0}
+.jy-globe.jy-globe-page{position:fixed!important;inset:0!important;min-height:0;height:100vh;height:100dvh;background:#020611!important}
+.jy-globe-expanded .jy-globe-heading{top:max(18px,env(safe-area-inset-top));left:max(18px,env(safe-area-inset-left));max-width:calc(100% - 160px)}
+.jy-globe-expanded .jy-globe-heading strong{font-size:19px}
+.jy-globe-expanded .jy-globe-panel{left:max(16px,env(safe-area-inset-left));right:auto;top:max(92px,calc(env(safe-area-inset-top) + 70px));max-height:calc(100% - 174px)}
+.jy-globe-fullscreen .jy-globe-actions{top:max(64px,calc(env(safe-area-inset-top) + 52px))}
+.jy-globe-page .jy-globe-actions{top:max(16px,env(safe-area-inset-top))}
+.jy-globe-page-body{margin:0!important;overflow:hidden!important;background:#020611!important;height:100vh;height:100dvh}
+html:not([data-jy-theme='dark']) .jy-globe:not(.jy-globe-expanded) .jy-globe-heading{color:#214d65}
+html:not([data-jy-theme='dark']) .jy-globe:not(.jy-globe-expanded) .jy-globe-status{color:#476d83}
+@media(max-width:760px){
+  #flowMapShell,#flowMapShell #flowMap{min-height:420px!important}
+  #chinaMap{height:420px!important}
+  .jy-globe-heading{top:12px;left:12px;max-width:calc(100% - 150px)}
+  .jy-globe-heading strong{font-size:12px}.jy-globe-heading small{font-size:8px}
+  .jy-globe-actions{gap:4px;right:8px;top:8px}.jy-globe-actions .jy-globe-button{width:40px;padding:0}
+  .jy-globe-actions .jy-globe-button span{display:none}
+  .jy-globe-expanded .jy-globe-heading strong{font-size:16px}
+  .jy-globe-expanded .jy-globe-panel{width:224px;top:max(80px,calc(env(safe-area-inset-top) + 68px));max-height:43%;left:10px}
+  .jy-globe-region{min-height:40px}.jy-globe-status{font-size:9px}
+  .jy-globe-empty{bottom:100px;font-size:11px}.jy-globe-back{min-width:40px}
+  #page-flow .card-header{flex-wrap:wrap;gap:10px}#page-flow .flow-tools{max-width:100%}#page-flow .flow-seg{display:flex;flex-wrap:wrap}
+}

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>API Reference · JiYan Cloud</title>
+<meta name="description" content="JiYan Cloud API reference: license-key verification, peer detection, cloud updates and remote config. Request format, encryption, signature, endpoints and error codes.">
+<link rel="icon" href="/favicon.ico">
+<style>
+:root{
+  --bg:#ffffff;--bg-soft:#f7f8fa;--bg-code:#f6f7f9;--fg:#1d1d1f;--fg-2:#4b5563;--fg-3:#8a8f98;
+  --line:#e6e8eb;--line-soft:#eef0f3;--accent:#2563eb;--accent-soft:#eff4ff;--ok:#0f9d58;--warn:#b45309;--bad:#c0392b;
+  --side:270px;--radius:10px;--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+html[data-theme="dark"]{
+  --bg:#0f1115;--bg-soft:#15181d;--bg-code:#15181d;--fg:#e8eaed;--fg-2:#a9b0ba;--fg-3:#7b828c;
+  --line:#242a33;--line-soft:#1c222a;--accent:#6ea8fe;--accent-soft:#16203a;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.88em;background:var(--bg-code);border:1px solid var(--line-soft);border-radius:5px;padding:.08em .38em;word-break:break-word}
+pre{margin:14px 0;background:var(--bg-code);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;overflow:auto;position:relative}
+pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.7;white-space:pre}
+.wrap{display:flex;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;width:var(--side);flex:0 0 var(--side);border-right:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:9px;padding:20px 20px 14px}
+.brand .dot{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.brand b{font-size:15px;letter-spacing:.2px}
+.brand small{display:block;font-size:11px;color:var(--fg-3);font-weight:400;letter-spacing:.3px}
+.lang{display:flex;gap:6px;padding:0 20px 14px}
+.lang a{font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;color:var(--fg-2)}
+.lang a.on{background:var(--accent);border-color:var(--accent);color:#fff}
+nav{flex:1;overflow:auto;padding:4px 12px 20px}
+nav .grp{font-size:11px;font-weight:600;color:var(--fg-3);letter-spacing:.08em;text-transform:uppercase;padding:14px 10px 6px}
+nav a{display:block;padding:6px 10px;border-radius:7px;color:var(--fg-2);font-size:13.5px;line-height:1.5}
+nav a:hover{background:var(--bg-soft);text-decoration:none;color:var(--fg)}
+nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.side-foot{border-top:1px solid var(--line);padding:12px 20px;display:flex;gap:14px;font-size:12px;color:var(--fg-3)}
+.side-foot a{color:var(--fg-3)}
+main{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 40px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px)}
+.crumb{font-size:13px;color:var(--fg-3)}
+.crumb b{color:var(--fg);font-weight:600}
+.top-actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--fg-2);border:1px solid var(--line);background:var(--bg);border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn:hover{border-color:var(--fg-3);text-decoration:none;color:var(--fg)}
+article{max-width:900px;padding:36px 40px 100px}
+h1{font-size:30px;line-height:1.3;margin:0 0 6px;letter-spacing:-.01em}
+.lead{color:var(--fg-2);margin:0 0 8px;font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 34px}
+.tag{font-size:12px;color:var(--fg-2);border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--bg-soft)}
+h2{font-size:21px;margin:52px 0 14px;padding-top:8px;border-top:1px solid var(--line-soft);letter-spacing:-.005em}
+h2:first-of-type{border-top:0;margin-top:12px}
+h2 .num{color:var(--fg-3);font-weight:500;font-size:14px;margin-right:8px;font-family:var(--mono)}
+h3{font-size:16px;margin:30px 0 10px}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:22px}
+li{margin:5px 0}
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{background:var(--bg-soft);font-weight:600;color:var(--fg-2);font-size:12.5px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--bg-soft)}
+td code{font-size:12.5px}
+.req{color:var(--bad);font-weight:600}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:11px 14px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:var(--fg-2)}
+.note b{color:var(--fg)}
+.warn{border-left-color:var(--warn);background:color-mix(in srgb,var(--warn) 9%,transparent)}
+.copy{position:absolute;top:8px;right:8px;font-size:11.5px;color:var(--fg-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 8px;cursor:pointer;opacity:.85}
+.copy:hover{opacity:1}
+.foot{border-top:1px solid var(--line);margin-top:60px;padding-top:18px;font-size:13px;color:var(--fg-3);display:flex;flex-wrap:wrap;gap:16px}
+.scroll-hint{display:none;font-size:12px;color:var(--fg-3);margin:-6px 0 12px}
+#menuBtn{display:none}
+@media (max-width:1000px){
+  aside{position:fixed;left:0;top:0;z-index:60;transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 10px 40px rgba(0,0,0,.18)}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .topbar{padding:10px 14px;gap:8px}
+  .btn{padding:4px 9px;font-size:12px}
+  .crumb{display:none}
+  table{min-width:0;font-size:12.5px}
+  th,td{padding:8px 10px}
+  td code,th code{word-break:break-all}
+  h1{font-size:25px}
+  article{padding:24px 18px 80px}
+  .scroll-hint{display:block}
+  .mask{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;display:none}
+  .mask.on{display:block}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside id="side">
+    <div class="brand">
+      <span class="dot">JY</span>
+      <div><b>JiYan Cloud Docs</b><small>API Reference v1.7</small></div>
+    </div>
+    <div class="lang">
+      <a href="/接口文档.html">中文</a>
+      <a href="/en/api-docs.html" class="on">EN</a>
+    </div>
+    <nav id="nav">
+      <div class="grp">Getting started</div>
+      <a href="#overview">Overview</a>
+      <a href="#quickstart">Quick start</a>
+      <div class="grp">Protocol</div>
+      <a href="#endpoints">Endpoints</a>
+      <a href="#request">Request format</a>
+      <a href="#crypto">Encryption &amp; signature</a>
+      <a href="#response">Response format</a>
+      <div class="grp">API reference</div>
+      <a href="#key">License keys</a>
+      <a href="#user">Peer detection</a>
+      <a href="#cloud">Cloud updates</a>
+      <a href="#cloudcontrol">Remote config</a>
+      <div class="grp">Reference</div>
+      <a href="#errors">Error codes</a>
+      <a href="#heartbeat">Heartbeat &amp; online</a>
+      <a href="#limits">Limits &amp; tips</a>
+      <a href="#sdkerrors">SDK errors</a>
+      <a href="#changelog">Changelog</a>
+    </nav>
+    <div class="side-foot">
+      <a href="/">Home</a>
+      <a href="javascript:void(0)" id="themeBtn2">Theme</a>
+    </div>
+  </aside>
+  <div class="mask" id="mask"></div>
+
+  <main>
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn" id="menuBtn">☰ Menu</button>
+        <span class="crumb">Docs / <b>API Reference</b></span>
+      </div>
+      <div class="top-actions">
+        <a class="btn" href="/">Home</a>
+        <button class="btn" id="themeBtn">Theme</button>
+      </div>
+    </div>
+
+    <article>
+      <h1>API Reference</h1>
+      <p class="lead">License-key verification, device binding, heartbeats, peer detection, cloud updates and remote configuration — all through one HTTP API.</p>
+      <div class="meta">
+        <span class="tag">v1.7</span>
+        <span class="tag">UTF-8 · JSON</span>
+        <span class="tag">POST only</span>
+        <span class="tag">Updated 2026-11-09</span>
+      </div>
+
+      <h2 id="overview"><span class="num">01</span>Overview</h2>
+      <p>The server exposes four PHP endpoints. The business action is carried inside an encrypted envelope, so clients need no session, cookie or admin login — only the application settings generated in the console:</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>app_id</code></td><td>Application ID (positive integer)</td></tr>
+          <tr><td><code>developer_username</code></td><td>Developer account that owns the application</td></tr>
+          <tr><td><code>encrypt_format</code></td><td>Encryption method <code>0–8</code></td></tr>
+          <tr><td><code>api_key</code></td><td>Encryption key; format depends on the method</td></tr>
+          <tr><td><code>sign_type</code></td><td>Signature method <code>0–14</code></td></tr>
+          <tr><td><code>sign_key</code></td><td>Signature key; may be empty when <code>sign_type=0</code></td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><b>Layers:</b> HTTP → outer JSON envelope (four fields) → inner parameters (encrypted query string) → encrypted JSON response. Each layer is validated separately and reports its own errors.</div>
+      <p><b>Base URLs</b></p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Use case</th><th>Base URL</th><th>Scheme</th></tr></thead>
+        <tbody>
+          <tr><td>Native clients (C++), license keys, remote config</td><td><code>http://api.和泉纱雾.cn/api/</code></td><td>HTTP</td></tr>
+          <tr><td>Java / desktop clients (optional)</td><td><code>https://jiyan.和泉纱雾.cn/api/JiYan/</code></td><td>HTTPS</td></tr>
+        </tbody>
+      </table></div>
+      <p>When a tool cannot handle internationalized domains, use punycode: <code>api.xn--0try77c6um82w.cn</code> and <code>jiyan.xn--0try77c6um82w.cn</code>.</p>
+
+      <h2 id="quickstart"><span class="num">02</span>Quick start</h2>
+      <ol>
+        <li>Create an application in the console and note <code>app_id</code>, <code>encrypt_format</code>, <code>api_key</code>, <code>sign_type</code> and <code>sign_key</code>.</li>
+        <li>Persist a stable <code>device_id</code> on the client (Android: <code>ANDROID_ID</code>; desktop: machine ID or a stored UUID).</li>
+        <li>Call <code>get_crypto_options</code> to self-check the keys, then <code>use_card</code> to verify a key. After success, send <code>heartbeat</code> every “心跳间隔秒” seconds returned by the server.</li>
+      </ol>
+      <p>Minimal request (encryption 0 / plaintext, for local debugging only):</p>
+<pre><code>curl -s http://api.和泉纱雾.cn/api/key.php \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "developer_username": "your-developer-username",
+    "app_id": 12345,
+    "iv": "",
+    "data": "action=use_card&amp;rc=0123456789abcdef0123456789abcdef&amp;card_key=TEST-0001&amp;device_id=abcdef0123456789"
+  }'</code><button class="copy">Copy</button></pre>
+      <p>With encryption 1+, <code>data</code> is Base64 ciphertext and <code>iv</code> is a Base64 16-byte IV. With signature 1+, the inner parameters must also carry <code>timestamp</code>, <code>nonce</code>, <code>signature_version=2</code>, <code>signature_scope</code> and <code>signature</code>.</p>
+
+      <h2 id="endpoints"><span class="num">03</span>Endpoints</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th><th>Allowed actions</th></tr></thead>
+        <tbody>
+          <tr><td><code>/api/key.php</code></td><td>License key verification, heartbeat, card info, unbind, announcement, crypto options, card creation</td><td><code>use_card</code> <code>heartbeat</code> <code>get_card_info</code> <code>unbind_device</code> <code>get_announcement</code> <code>get_crypto_options</code> <code>create_card_client</code></td></tr>
+          <tr><td><code>/api/user.php</code></td><td>Peer detection: report player identity, get online list</td><td><code>update_game_info</code></td></tr>
+          <tr><td><code>/api/Cloudupdate.php</code></td><td>Cloud updates: version check, manifest, download URL, receipt</td><td><code>check_version</code> <code>get_update_manifest</code> <code>get_download_url</code> <code>confirm_download</code></td></tr>
+          <tr><td><code>/api/cloud-client.php</code></td><td>Remote configuration (members only)</td><td><code>sdk_sync</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>All four endpoints accept <code>POST</code> only. Other methods return <code>405</code>; unknown paths return <code>404</code>.</p>
+
+      <h2 id="request"><span class="num">04</span>Request format</h2>
+      <h3>Headers</h3>
+<pre><code>POST /api/key.php HTTP/1.1
+Host: api.和泉纱雾.cn
+Content-Type: application/json; charset=utf-8
+Content-Length: 512</code><button class="copy">Copy</button></pre>
+
+      <h3>Outer envelope</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>developer_username</code></td><td>string</td><td class="req">yes</td><td>Developer account (owner), ≤128 bytes</td></tr>
+          <tr><td><code>app_id</code></td><td>int / string</td><td class="req">yes</td><td>Application ID</td></tr>
+          <tr><td><code>iv</code></td><td>string</td><td>depends</td><td>Base64 16-byte IV for AES modes; empty otherwise</td></tr>
+          <tr><td><code>data</code></td><td>string</td><td class="req">yes</td><td>Inner parameters after encryption</td></tr>
+        </tbody>
+      </table></div>
+      <p>Body limit: <b>1 MiB</b>. Empty or oversized <code>data</code> is rejected before any business logic runs.</p>
+
+      <h3>Inner parameters</h3>
+      <p>A query string (<code>k=v&amp;k=v</code>) before encryption. All values are strings:</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Name</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>action</code></td><td class="req">yes</td><td>Business action</td></tr>
+          <tr><td><code>rc</code></td><td>recommended</td><td>32-char request id; echoed back as <code>data.rc</code> so responses can be matched</td></tr>
+          <tr><td><code>card_key</code></td><td>per action</td><td>License key; aliases <code>card</code> <code>card_no</code> <code>key</code></td></tr>
+          <tr><td><code>device_id</code></td><td>per action</td><td>Device id; aliases <code>markcode</code> <code>user_mark</code>, ≤64 chars (128 for no-bind cards)</td></tr>
+          <tr><td><code>user_name</code></td><td>per action</td><td>Player name; alias <code>player_name</code></td></tr>
+          <tr><td><code>user_uid</code></td><td>per action</td><td>Player UID; alias <code>player_uid</code></td></tr>
+          <tr><td><code>password</code></td><td>per app</td><td>Request password, when the app enables the security check</td></tr>
+          <tr><td><code>token</code></td><td>per app</td><td>Request token, same condition</td></tr>
+          <tr><td><code>timestamp</code></td><td>v2</td><td>10–16 digits, seconds or milliseconds; ±300 s skew allowed</td></tr>
+          <tr><td><code>nonce</code></td><td>v2</td><td>16–64 chars from <code>[A-Za-z0-9_-]</code>, single use</td></tr>
+          <tr><td><code>signature_version</code></td><td>v2</td><td>Always <code>2</code></td></tr>
+          <tr><td><code>signature_scope</code></td><td>v2</td><td><code>key</code>, <code>user</code>, <code>cloud</code> or <code>cloud_control</code></td></tr>
+          <tr><td><code>signature</code></td><td>v2</td><td>Signature over the canonical string</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="crypto"><span class="num">05</span>Encryption &amp; signature</h2>
+      <h3>Encryption</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>#</th><th>Method</th><th>Key / IV</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>None (plaintext)</td><td>—</td></tr>
+          <tr><td>1</td><td>AES-256-CBC + PKCS#7</td><td><code>api_key</code>: Base64 32 bytes; <code>iv</code>: Base64 16 bytes</td></tr>
+          <tr><td>2</td><td>Custom Base64 alphabet</td><td><code>api_key</code>: 64-char alphabet</td></tr>
+          <tr><td>3</td><td>EnvProto</td><td><code>api_key</code>: hex</td></tr>
+          <tr><td>4</td><td>JiYan-Seal v1 (HMAC keystream + tag)</td><td><code>api_key</code>: 64 hex chars</td></tr>
+          <tr><td>5</td><td>AES-256-CBC + HMAC-SHA256 (encrypt-then-MAC)</td><td><code>api_key</code> Base64 32 bytes; <code>iv</code> Base64 16 bytes</td></tr>
+          <tr><td>6</td><td>AES-256-GCM (AEAD)</td><td><code>api_key</code> Base64 32 bytes; output <code>base64(nonce12‖ct‖tag16)</code></td></tr>
+          <tr><td>7</td><td>ChaCha20-Poly1305 (AEAD)</td><td><code>api_key</code> Base64 32 bytes; output <code>base64(nonce12‖ct‖tag16)</code></td></tr>
+          <tr><td>8</td><td>XChaCha20-Poly1305 (AEAD)</td><td><code>api_key</code> Base64 32 bytes; output <code>base64(nonce24‖ct‖tag16)</code></td></tr>
+          <tr><td colspan="3" style="color:#8a8f98">Members only: encryption 5–8 (authenticated AEAD / encrypt-then-MAC). All other modes are free.</td></tr>
+        </tbody>
+      </table></div>
+      <p>In plaintext mode the <code>data</code> field is the raw query string.</p>
+
+      <h3>Signature</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>#</th><th>Algorithm</th><th>Formula</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>None</td><td>—</td></tr>
+          <tr><td>1–11</td><td>MD5 / SHA512 / CRC32 / SHA256 / RIPEMD160 / SHA1 / SHA224 / SHA384 / SHA3-512 / SHA3-256 / SHA3-224</td><td><code>hash(content + sign_key)</code></td></tr>
+          <tr><td>12</td><td>JiYan-Sign (HMAC-SHA256)</td><td><code>HMAC-SHA256(key=sign_key, msg=content)</code></td></tr>
+          <tr><td>13</td><td>JiYan-Sign+ (dual HMAC)</td><td><code>HMAC(content) + "." + substr(HMAC("jy1"+content+sign_key), 0, 16)</code></td></tr>
+          <tr><td>14</td><td>BLAKE2b-256 (keyed)</td><td><code>BLAKE2b-256(content, key=SHA256(sign_key))</code>, 64 lowercase hex</td></tr>
+          <tr><td colspan="3" style="color:#8a8f98">Members only: signature 13–14 (dual HMAC / keyed BLAKE2b). All other modes are free.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>v2 canonical string</h3>
+<pre><code>jy-req-v2\n
+{scope}\n
+{app_id}\n
+2\n
+{len(name)}:{name}={len(value)}:{value}\n   ← one line per param, sorted by name bytes, signature excluded</code><button class="copy">Copy</button></pre>
+      <ul>
+        <li><code>len()</code> is the <b>byte length</b> (UTF-8), not the character count.</li>
+        <li>Includes <code>action</code>, <code>rc</code>, <code>timestamp</code>, <code>nonce</code>, <code>signature_version</code>, <code>signature_scope</code> and all business parameters; arrays/objects are excluded.</li>
+        <li>The nonce is consumed only after a successful signature check.</li>
+        <li>Legacy v1 (values concatenated in insertion order) is used when <code>signature_version</code> is absent.</li>
+      </ul>
+
+      <h3>Response signature</h3>
+<pre><code>sign(
+  (success ? "true" : "false") + message + json_encode(data),
+  sign_type, sign_key
+)</code><button class="copy">Copy</button></pre>
+      <p>Verify against the <b>raw data text as received</b>; re-serializing changes key order and escaping. The official SDKs already do this.</p>
+
+      <h2 id="response"><span class="num">06</span>Response format</h2>
+      <p>The body is <b>encrypted</b> with <code>Content-Type: text/plain; charset=utf-8</code> and must be decrypted with the app's <code>encrypt_format</code> (mode 0 returns plain JSON).</p>
+<pre><code>{
+  "success": true,
+  "code": 0,
+  "message": "卡密验证成功",
+  "data": { "rc": "0123...cdef", "到期时间": "2026-12-31 23:59:59" },
+  "signature": "..."
+}</code><button class="copy">Copy</button></pre>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Field</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>success</code></td><td>Business result; on failure read <code>code</code> and <code>message</code></td></tr>
+          <tr><td><code>code</code></td><td>Business code, 0 = success</td></tr>
+          <tr><td><code>message</code></td><td>Human-readable reason (Chinese)</td></tr>
+          <tr><td><code>data</code></td><td>Payload; echoes <code>rc</code> when provided</td></tr>
+          <tr><td><code>signature</code></td><td>Response signature</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note warn"><b>Pre-flight errors</b> are plain text starting with <code>JiYan_Error</code>, e.g. <code>JiYan_Error应用不存在</code> (the legacy <code>(Env-Error)</code> prefix is deprecated and no longer recognised by 1.7 SDKs). Parse defensively instead of JSON-decoding blindly.</div>
+
+      <h2 id="key"><span class="num">07</span>License keys <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/key.php</span></h2>
+
+      <h3>7.1 Verify a key <span class="tag" style="font-size:11px">action=use_card</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Parameter</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_key</code></td><td class="req">yes</td><td>License key</td></tr>
+          <tr><td><code>device_id</code></td><td class="req">yes</td><td>Device identifier; bound on first use</td></tr>
+          <tr><td><code>user_name</code></td><td>no</td><td>Player name for the online list</td></tr>
+          <tr><td><code>user_uid</code></td><td>no</td><td>Player UID for peer detection and bans</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>data</b>: <code>到期时间</code> (expiry or “永久”), <code>剩余秒</code> (-1 for permanent), <code>在线人数</code>, <code>game_uids</code>, <code>心跳间隔秒</code>, <code>在线判定窗口秒</code>, <code>server_time</code>, <code>need_reverify</code>, <code>type</code>.</p>
+      <p><b>Common failures</b>: <code>2001</code> not found, <code>2002</code> expired, <code>2005</code> disabled, <code>2006</code> banned, <code>1001</code> missing device id, <code>1005</code> wrong request password/token.</p>
+
+      <h3>7.2 Heartbeat <span class="tag" style="font-size:11px">action=heartbeat</span></h3>
+      <p>Parameters: <code>card_key</code>, <code>device_id</code> (required), <code>user_name</code>, <code>user_uid</code>. Returns the same expiry/online fields as <code>use_card</code>. On <code>2006</code>/<code>2002</code> stop the feature; on <code>need_reverify=1</code> run <code>use_card</code> again.</p>
+
+      <h3>7.3 Key info <span class="tag" style="font-size:11px">action=get_card_info</span></h3>
+      <p>Parameter: <code>card_key</code>. Returns key number, type, validity, max devices, bound device, status (<code>0</code> unused / <code>1</code> in use / <code>2</code> expired), timestamps, disabled flag and note.</p>
+
+      <h3>7.4 Unbind device <span class="tag" style="font-size:11px">action=unbind_device</span></h3>
+      <p>Parameters: <code>card_key</code>, <code>device_id</code>. Returns <code>卡密号码</code> and <code>到期时间</code>. Subject to the app's cooldown, attempt limit and time deduction; <code>2003</code> means cooldown or limit not met.</p>
+
+      <h3>7.5 Announcement <span class="tag" style="font-size:11px">action=get_announcement</span></h3>
+      <p>No parameters. Returns <code>announcement</code>; if disabled, <code>3003</code>.</p>
+
+      <h3>7.6 Crypto options <span class="tag" style="font-size:11px">action=get_crypto_options</span></h3>
+      <p>No parameters. Returns available methods, membership flags and the app's current settings.</p>
+
+      <h3>7.7 Create keys from the client <span class="tag" style="font-size:11px">action=create_card_client</span></h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Parameter</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>card_keys</code></td><td>no</td><td>Custom keys separated by spaces/commas (≤500); random when omitted</td></tr>
+          <tr><td><code>card_type</code></td><td>no</td><td><code>1</code> normal / <code>2</code> multi-device</td></tr>
+          <tr><td><code>duration_days</code> / <code>duration_hours</code> / <code>duration_minutes</code></td><td>no</td><td>Validity (<code>36500</code> days = permanent)</td></tr>
+          <tr><td><code>max_devices</code></td><td>no</td><td>1–10000</td></tr>
+          <tr><td><code>notes</code></td><td>no</td><td>≤255 chars</td></tr>
+        </tbody>
+      </table></div>
+      <p>Returns an array of created keys plus <code>card_balance</code> after deduction. Single-use keys are not available yet.</p>
+
+      <h2 id="user"><span class="num">08</span>Peer detection <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/user.php</span></h2>
+      <h3>8.1 Report player identity <span class="tag" style="font-size:11px">action=update_game_info</span></h3>
+      <p>Parameters: <code>card_key</code>, <code>device_id</code>, <code>user_name</code>, <code>user_uid</code> (all required). Returns <code>在线人数</code>, <code>game_uids</code>, <code>online_list</code> (≤200), <code>is_peer</code>, heartbeat interval, window and <code>server_time</code>.</p>
+
+      <h2 id="cloud"><span class="num">09</span>Cloud updates <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/Cloudupdate.php</span></h2>
+      <h3>9.1 Version check <span class="tag" style="font-size:11px">action=check_version</span></h3>
+      <p>Optional parameters: <code>Name</code> (<code>file_name</code>), <code>MD5</code> (<code>md5</code>), <code>version</code>. Returns <code>need_update</code>, <code>has_file</code>, <code>source</code>, <code>file_id</code>, <code>file_name</code>, <code>latest_md5</code>, <code>file_size</code>, <code>version</code>, <code>update_content</code>, <code>download_url</code>.</p>
+      <div class="note">Any difference in version string triggers an update — downgrades are allowed too.</div>
+
+      <h3>9.2 Manifest <span class="tag" style="font-size:11px">action=get_update_manifest</span></h3>
+      <p>No parameters. Returns all files marked for cloud update (≤2000) plus <code>latest_version</code>, <code>update_content</code> and <code>remaining_times</code>.</p>
+
+      <h3>9.3 Download URL <span class="tag" style="font-size:11px">action=get_download_url</span></h3>
+      <p>Parameters: <code>file_id</code> (required), <code>device_id</code> (recommended, ticket binding). Local files return a one-time ticket URL plus size/MD5; remote files return the third-party URL with no ticket and no quota deduction.</p>
+
+      <h3>9.4 Download receipt <span class="tag" style="font-size:11px">action=confirm_download</span></h3>
+      <p>Parameters: <code>file_id</code>, <code>ticket</code> (local files), <code>device_id</code>, <code>md5_ok=1</code>. Deducts quota once per ticket; repeated receipts are idempotent.</p>
+
+      <h2 id="cloudcontrol"><span class="num">10</span>Remote configuration <span style="font-weight:400;color:var(--fg-3);font-size:13px">/api/cloud-client.php</span></h2>
+      <p>Members only. Same encrypted envelope, but exactly 15 inner fields and mandatory v2 signature with scope <code>cloud_control</code>. The response binds <code>rc</code>, <code>request_nonce</code>, <code>signature_scope</code>, <code>app_id</code>, <code>card_key</code> and <code>device_id</code>; verify every one before applying commands.</p>
+
+      <h2 id="errors"><span class="num">11</span>Error codes</h2>
+      <p>Three layers: <b>HTTP status</b> → <b>business code</b> → <b>SDK local error</b>. Normal calls always return HTTP 200; business failures are 200 with <code>success=false</code>.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>HTTP</th><th>Meaning</th><th>Typical cause</th></tr></thead>
+        <tbody>
+          <tr><td><code>200</code></td><td>OK</td><td>Check <code>success</code>/<code>code</code></td></tr>
+          <tr><td><code>400</code></td><td>Bad request</td><td>Invalid JSON, missing envelope fields, corrupt ciphertext</td></tr>
+          <tr><td><code>401</code></td><td>Unauthorized</td><td>Admin API called without session — client API never returns this</td></tr>
+          <tr><td><code>403</code></td><td>Forbidden</td><td>IP restriction, WAF/firewall</td></tr>
+          <tr><td><code>404</code></td><td>Not found</td><td>Wrong endpoint path</td></tr>
+          <tr><td><code>405</code></td><td>Method not allowed</td><td>GET/PUT instead of POST</td></tr>
+          <tr><td><code>413</code></td><td>Payload too large</td><td>Body over 1 MiB</td></tr>
+          <tr><td><code>429</code></td><td>Too many requests</td><td>Rate limited</td></tr>
+          <tr><td><code>5xx</code></td><td>Server error</td><td>PHP error or gateway timeout</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code></td><td>Success</td></tr>
+          <tr><td><code>1001</code></td><td>Missing or invalid parameter</td></tr>
+          <tr><td><code>1004</code></td><td>Timestamp or nonce rejected (expired / replay)</td></tr>
+          <tr><td><code>1005</code></td><td>Credential, permission or whitelist rejected</td></tr>
+          <tr><td><code>1006</code></td><td>Price or config changed; retry</td></tr>
+          <tr><td><code>2001</code></td><td>Key not found / invalid</td></tr>
+          <tr><td><code>2002</code></td><td>Key expired</td></tr>
+          <tr><td><code>2003</code></td><td>Unbind cooldown or limit reached</td></tr>
+          <tr><td><code>2005</code></td><td>Key disabled</td></tr>
+          <tr><td><code>2006</code></td><td>User banned</td></tr>
+          <tr><td><code>3001</code></td><td>Application disabled</td></tr>
+          <tr><td><code>3003</code></td><td>Feature disabled</td></tr>
+          <tr><td><code>9999</code></td><td>Other business failure</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="heartbeat"><span class="num">12</span>Heartbeat &amp; online</h2>
+      <p>Online state is derived from the heartbeat timestamp and an online window; both are returned by the server — do not hard-code them.</p>
+      <ul>
+        <li><code>心跳间隔秒</code>: recommended heartbeat period (default 10 s).</li>
+        <li><code>在线判定窗口秒</code>: no heartbeat within this window ⇒ offline (about 4× the interval, minimum 30 s).</li>
+        <li>Start heartbeats right after <code>use_card</code>; stop them on exit and the session expires automatically.</li>
+      </ul>
+
+      <h2 id="limits"><span class="num">13</span>Limits &amp; tips</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Item</th><th>Limit</th></tr></thead>
+        <tbody>
+          <tr><td>Request body</td><td>≤ 1 MiB</td></tr>
+          <tr><td>Decrypted remote-config payload</td><td>≤ 64 KiB</td></tr>
+          <tr><td>Timestamp skew</td><td>±300 s</td></tr>
+          <tr><td>Nonce</td><td>16–64 chars, single use</td></tr>
+          <tr><td>Cloud manifest</td><td>≤ 2000 files</td></tr>
+          <tr><td>Key creation</td><td>≤ 500 per call, limited by balance</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>Keep heartbeats ≥10 s; scale by increasing the period, not by retrying aggressively.</li>
+        <li>One heartbeat thread per device; reuse the same <code>device_id</code> after reconnects.</li>
+        <li>Use Range requests to resume large downloads.</li>
+        <li>Always verify the response signature and <code>data.rc</code>.</li>
+      </ul>
+
+      <h2 id="sdkerrors"><span class="num">14</span>SDK local errors</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Message</th><th>Cause</th></tr></thead>
+        <tbody>
+          <tr><td>请求体不能为空</td><td>No parameters sent</td></tr>
+          <tr><td>应用请求参数为空</td><td>Missing <code>developer_username</code>/<code>app_id</code></td></tr>
+          <tr><td>响应解密失败</td><td><code>encrypt_format</code>/<code>api_key</code> mismatch</td></tr>
+          <tr><td>响应签名校验失败</td><td><code>sign_type</code>/<code>sign_key</code> mismatch, or data re-serialized</td></tr>
+          <tr><td>响应请求标识不匹配</td><td><code>data.rc</code> differs from the request</td></tr>
+          <tr><td>网络连接失败</td><td>DNS, firewall or port blocked</td></tr>
+          <tr><td>接口返回失败（未签名）</td><td>Signing disabled, so failures cannot be verified</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="changelog"><span class="num">15</span>Changelog</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Version</th><th>Changes</th></tr></thead>
+        <tbody>
+          <tr><td>1.7</td><td>Per-second heartbeat config; remote config accepts all encryption/signature methods (only required keys and membership are enforced); <code>create_card_client</code> added; full HTTP status documentation.</td></tr>
+          <tr><td>1.6</td><td>Client actions moved to the HTTP API site; <code>get_update_manifest</code> added; Range resume support.</td></tr>
+          <tr><td>1.5</td><td>HTTPS channel, response signatures, key sessions and heartbeats.</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="foot">
+        <span>JiYan Cloud · Developer Docs</span>
+        <a href="/">Home</a>
+        <a href="/接口文档.html">中文</a>
+      </div>
+    </article>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  function apply(t){root.setAttribute('data-theme',t);try{localStorage.setItem('jy_theme',t)}catch(e){}}
+  var saved='auto';try{saved=localStorage.getItem('jy_theme')||'auto'}catch(e){}
+  apply(saved);
+  function toggle(){apply(root.getAttribute('data-theme')==='dark'?'light':'dark')}
+  document.getElementById('themeBtn').onclick=toggle;
+  document.getElementById('themeBtn2').onclick=toggle;
+  document.querySelectorAll('pre .copy').forEach(function(b){
+    b.onclick=function(){
+      var code=b.parentNode.querySelector('code');
+      var text=code?code.innerText:'';
+      var done=function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1200)};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,done)}
+      else{var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);done()}
+    };
+  });
+  var links=[].slice.call(document.querySelectorAll('#nav a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id)}).filter(Boolean);
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      links.forEach(function(a){a.classList.remove('on')});
+      var a=map[e.target.id];if(a){a.classList.add('on')}
+    });
+  },{rootMargin:'-15% 0px -70% 0px',threshold:0});
+  targets.forEach(function(t){io.observe(t)});
+  var side=document.getElementById('side'),mask=document.getElementById('mask');
+  function close(){side.classList.remove('open');mask.classList.remove('on')}
+  document.getElementById('menuBtn').onclick=function(){side.classList.add('open');mask.classList.add('on')};
+  mask.onclick=close;
+  links.forEach(function(a){a.addEventListener('click',close)});
+})();
+</script>
+</body>
+</html>

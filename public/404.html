@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>404 · 页面不存在 — 极验云</title>
+<meta name="theme-color" content="#eef3fb">
+<link rel="icon" href="/前台/后台模块/image/jiyan-logo.png">
+<style>
+:root{
+  --bg:#eef3fb; --glass:rgba(255,255,255,.78); --glass-brd:rgba(255,255,255,.92);
+  --ink:#161f2b; --ink-2:#4d5b70; --ink-3:#7d8a9d;
+  --accent:#2f7cf6; --accent-2:#12b886; --accent-3:#8b5cf6;
+  --card-sh:0 10px 34px rgba(16,26,48,.12);
+  --radius:22px;
+}
+html[data-theme="dark"]{
+  --bg:#0d1420; --glass:rgba(24,34,50,.78); --glass-brd:rgba(60,80,110,.6);
+  --ink:#e8eef8; --ink-2:#a8b6ca; --ink-3:#7b8a9e;
+  --card-sh:0 10px 34px rgba(0,0,0,.45);
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#0d1420; --glass:rgba(24,34,50,.78); --glass-brd:rgba(60,80,110,.6);
+    --ink:#e8eef8; --ink-2:#a8b6ca; --ink-3:#7b8a9e;
+    --card-sh:0 10px 34px rgba(0,0,0,.45);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px; -webkit-font-smoothing:antialiased;
+  position:relative; overflow:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:-20%;
+  background:
+    radial-gradient(60% 50% at 18% 12%, rgba(47,124,246,.18), transparent 70%),
+    radial-gradient(55% 45% at 84% 20%, rgba(139,92,246,.16), transparent 70%),
+    radial-gradient(50% 50% at 60% 92%, rgba(18,184,134,.13), transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.card{
+  position:relative; z-index:1;
+  width:100%; max-width:520px; text-align:center;
+  background:var(--glass); border:1px solid var(--glass-brd);
+  border-radius:var(--radius); box-shadow:var(--card-sh);
+  backdrop-filter:blur(22px) saturate(150%);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  padding:52px 36px 42px;
+}
+.code{
+  font-size:104px; font-weight:800; line-height:1; letter-spacing:-4px;
+  background:linear-gradient(135deg,#2f7cf6,#8b5cf6 55%,#12b886);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:6px; user-select:none;
+}
+.code-sub{
+  font-size:12px; font-weight:700; letter-spacing:3px;
+  color:var(--ink-3); text-transform:uppercase; margin-bottom:22px;
+}
+h1{ font-size:22px; font-weight:700; margin-bottom:12px; letter-spacing:.5px }
+p.desc{
+  font-size:14px; line-height:1.8; color:var(--ink-2);
+  margin-bottom:30px; padding:0 8px;
+}
+.actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap }
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  min-width:132px; height:44px; padding:0 24px;
+  border-radius:14px; font-size:14px; font-weight:600;
+  text-decoration:none; cursor:pointer; border:1px solid transparent;
+  transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.btn-primary{
+  color:#fff;
+  background:linear-gradient(135deg,#2f7cf6,#4f8ffb);
+  box-shadow:0 8px 22px rgba(47,124,246,.32);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(47,124,246,.4) }
+.btn-ghost{
+  color:var(--ink-2); background:transparent;
+  border-color:rgba(140,160,190,.38);
+}
+.btn-ghost:hover{ background:rgba(140,160,190,.12); transform:translateY(-2px) }
+.foot{
+  margin-top:30px; padding-top:20px;
+  border-top:1px solid rgba(140,160,190,.18);
+  font-size:12px; color:var(--ink-3); line-height:1.8;
+}
+.foot a{ color:var(--accent); text-decoration:none }
+.foot a:hover{ text-decoration:underline }
+@media (max-width:480px){
+  .card{ padding:40px 22px 32px }
+  .code{ font-size:80px }
+  h1{ font-size:19px }
+  .btn{ min-width:118px; height:42px; padding:0 18px }
+}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="code">404</div>
+    <div class="code-sub">Page Not Found</div>
+    <h1>这个页面走丢了</h1>
+    <p class="desc">
+      你要找的页面不存在、已被移动，或者链接输入有误。<br>
+      检查一下地址，或者回到首页重新开始。
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/home.html">返回首页</a>
+      <a class="btn btn-ghost" href="javascript:history.back()">回到上一页</a>
+    </div>
+    <div class="foot">
+      极验云 · 卡密验证与云更新平台<br>
+      遇到问题请联系站点管理员
+    </div>
+  </main>
+</body>
+</html>
